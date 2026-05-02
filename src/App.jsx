@@ -143,7 +143,7 @@ export default function Portfolio() {
             fontSize: "clamp(5.5rem, 15vw, 12rem)",
             fontWeight: 300, lineHeight: 0.88, margin: "0 0 20px",
             letterSpacing: -4, animation: "fu 0.8s ease 0.1s both",
-          }}>Xsa</h1>
+          }}>Xsaaa</h1>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1rem, 2.2vw, 1.6rem)", fontStyle: "italic", color: MUTED, animation: "fu 0.8s ease 0.2s both" }}>
             Shaping the stage, one light at a time.
           </div>
