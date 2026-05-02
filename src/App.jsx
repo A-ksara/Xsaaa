@@ -274,7 +274,7 @@ export default function Portfolio() {
       {/* FOOTER */}
       <footer style={{ padding: "56px 8vw", background: "#080808", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
         <div>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontWeight: 300, letterSpacing: -1 }}>Xsa</div>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontWeight: 300, letterSpacing: -1 }}>Xsaaa</div>
           <div style={{ fontSize: 9, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>Lighting Crew</div>
         </div>
         <div style={{ fontSize: "0.73rem", color: MUTED, letterSpacing: 1 }}>Since 04.10.2024 · Jakarta</div>
