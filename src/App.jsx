@@ -7,8 +7,9 @@ const TEXT = "#F0EDE8";
 const MUTED = "#666";
 const DIMMED = "#2A2A2A";
 
-const bio = `Xsa mulai terjun ke dunia event lighting sejak 4 Oktober 2024 — dan dalam waktu kurang dari dua tahun, sudah menjadi bagian dari lebih dari 39 event berskala nasional dan internasional. Dari konser K-Pop di ICE BSD hingga panggung festival di Bali, dari wedding mewah di Park Hyatt hingga concert hall bergengsi di GBK. Setiap event adalah pengalaman baru, setiap venue adalah ruang belajar yang berbeda.`;
+const bio = `Xsa has been involved in the event lighting industry, contributing to a wide range of national and international productions across Indonesia. From K-Pop concerts at ICE BSD and large-scale festival stages in Bali, to luxury weddings at Park Hyatt and prestigious concert venues around GBK, each project has become both a creative challenge and a space for continuous growth.
 
+With experience across diverse event formats and venues, Xsa combines technical execution with adaptability, working behind the scenes to help transform concepts into immersive visual experiences.`;
 const skills = [
   { cat: "Rigging & Setup", items: ["Fixture rigging & hanging", "Venue layout & positioning", "Fixture focus & angle"] },
   { cat: "Cable & Patching", items: ["Cable management & routing", "DMX patching assist", "Power distribution setup", "Cable labeling & wrap"] },
