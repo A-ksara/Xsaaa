@@ -183,7 +183,7 @@ export default function Portfolio() {
           <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>About</div></Fade>
           <Fade delay={0.1}>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 32px", letterSpacing: -1, lineHeight: 1.1 }}>
-              Creating immersive environments<br /><span style={{ fontStyle: "italic", color: GOLD }}>through lighting..</span>
+              Creating immersive environments<br /><span style={{ fontStyle: "italic", color: GOLD }}>through lighting.</span>
             </h2>
           </Fade>
           <Fade delay={0.2}>
@@ -207,7 +207,7 @@ export default function Portfolio() {
         <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Skills</div></Fade>
         <Fade delay={0.1}>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 56px", letterSpacing: -1, lineHeight: 1.1 }}>
-            Apa yang gw<br /><span style={{ fontStyle: "italic", color: GOLD }}>kerjain di lapangan.</span>
+            What i'm doing <br /><span style={{ fontStyle: "italic", color: GOLD }}>at field.</span>
           </h2>
         </Fade>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 2 }}>
