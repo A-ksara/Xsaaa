@@ -137,7 +137,7 @@ export default function Portfolio() {
         <div style={{ position: "absolute", top: "20%", left: "35%", width: 500, height: 500, background: `radial-gradient(circle, ${GOLD}15 0%, transparent 65%)`, pointerEvents: "none" }} />
         <div style={{ position: "relative" }}>
           <div style={{ fontSize: 10, letterSpacing: 5, color: GOLD, textTransform: "uppercase", marginBottom: 28, animation: "fu 0.8s ease both" }}>
-            Lighting Crew · Since 04 Oct 2024
+            Lighting Crew · Since Oct 2024
           </div>
           <h1 style={{
             fontFamily: "'Cormorant Garamond', serif",
@@ -183,7 +183,7 @@ export default function Portfolio() {
           <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>About</div></Fade>
           <Fade delay={0.1}>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 32px", letterSpacing: -1, lineHeight: 1.1 }}>
-              Membangun atmosfer<br /><span style={{ fontStyle: "italic", color: GOLD }}>dari balik lampu.</span>
+              Creating immersive environments<br /><span style={{ fontStyle: "italic", color: GOLD }}>through lighting..</span>
             </h2>
           </Fade>
           <Fade delay={0.2}>
@@ -278,7 +278,7 @@ export default function Portfolio() {
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontWeight: 300, letterSpacing: -1 }}>Xsaaa</div>
           <div style={{ fontSize: 9, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>Lighting Crew</div>
         </div>
-        <div style={{ fontSize: "0.73rem", color: MUTED, letterSpacing: 1 }}>Since 04.10.2024 · Jakarta</div>
+        <div style={{ fontSize: "0.73rem", color: MUTED, letterSpacing: 1 }}>Since Oct 2024 · Jakarta</div>
       </footer>
 
       <style>{`
