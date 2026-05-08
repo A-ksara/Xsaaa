@@ -57,8 +57,8 @@ const events = [
   { n: 37, title: "aespa — SYNK",                   venue: "ICE BSD Hall 5",           date: "2026-04-04", cat: "Concert" },
   { n: 38, title: "NCT WISH Concert",                venue: "ICE BSD Hall 5",           date: "2026-04-11", cat: "Concert" },
   { n: 39, title: "CNBLUE — 3LOGY",                 venue: "ICE BSD Hall 1",           date: "2026-04-18", cat: "Concert" },
-  { n: 39, title: "ONE OK ROCK - DETOX (UPCOMING)",                 venue: "Indonesia Arena",           date: "2026-05-16", cat: "Concert" },
-  { n: 39, title: "LAUFEY (UPCOMING)",                 venue: "NICE PIK 2",           date: "2026-05-23", cat: "Concert" },
+  { n: 40, title: "ONE OK ROCK - DETOX (UPCOMING)",                 venue: "Indonesia Arena",           date: "2026-05-16", cat: "Concert" },
+  { n: 41, title: "LAUFEY (UPCOMING)",                 venue: "NICE PIK 2",           date: "2026-05-23", cat: "Concert" },
   
 ];
 
