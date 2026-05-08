@@ -153,7 +153,7 @@ export default function Portfolio() {
           </div>
           <div style={{ width: 40, height: 1, background: GOLD, margin: "36px 0", animation: "fu 0.8s ease 0.3s both" }} />
           <div style={{ display: "flex", gap: 48, animation: "fu 0.8s ease 0.4s both" }}>
-            {[["39+","Events"],["18+","Months"],["10+","Venues"]].map(([n,l]) => (
+            {[["41","Events"],["19+","Months"],["10+","Venues"]].map(([n,l]) => (
               <div key={l}>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "3rem", fontWeight: 300, color: GOLD, lineHeight: 1 }}>{n}</div>
                 <div style={{ fontSize: 10, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>{l}</div>
