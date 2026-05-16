@@ -243,7 +243,7 @@ const events = [
     title: "Potato Head Beach Party",
     venue: "Potato Head Bali",
     date: "2025-12-31",
-    cat: "Party"
+    cat: "Concert"
   },
 
   {
@@ -302,7 +302,7 @@ const events = [
     cat: "Concert"
   }
 ];
-const CATS = ["All", "Concert", "Festival", "Corporate", "Wedding"];
+const CATS = ["All", "Concert", "Festival", "Corporate", " Production"];
 const CAT_COLOR = { Concert: "#E8A030", Festival: "#60A5FA", Corporate: "#A78BFA", Wedding: "#F472B6" };
 
 function useInView(threshold = 0.1) {
@@ -393,7 +393,7 @@ export default function Portfolio() {
           </div>
           <div style={{ width: 40, height: 1, background: GOLD, margin: "36px 0", animation: "fu 0.8s ease 0.3s both" }} />
           <div style={{ display: "flex", gap: 48, animation: "fu 0.8s ease 0.4s both" }}>
-            {[["41","Events"],["19+","Months"],["10+","Venues"]].map(([n,l]) => (
+            {[["40","Events"],["19+","Months"],["10+","Venues"]].map(([n,l]) => (
               <div key={l}>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "3rem", fontWeight: 300, color: GOLD, lineHeight: 1 }}>{n}</div>
                 <div style={{ fontSize: 10, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>{l}</div>
