@@ -37,7 +37,7 @@ const events = [
   { n: 13, title: "Java Jazz Festival",               venue: "JIExpo",                  date: "2025-05-30", endDate: "2025-06-01",    cat: "Festival"    },
   { n: 14, title: "BABYMONSTER",                      venue: "ICE BSD Hall 5",          date: "2025-06-14",                           cat: "Concert"     },
   { n: 15, title: "MEDCO Event",                      venue: "Indonesia Arena",         date: "2025-06-28",                           cat: "Corporate"   },
-  { n: 16, title: "StandUp Event",                    venue: "Istora Senayan",          date: "2025-07-11", endDate: "2025-07-13",    cat: "Production"  },
+  { n: 16, title: "StandUp Fest",                    venue: "Istora Senayan",          date: "2025-07-11", endDate: "2025-07-13",    cat: "Production"  },
   { n: 17, title: "GIIAS",                            venue: "ICE BSD",                 date: "2025-07-24", endDate: "2025-08-03",    cat: "Exhibition"  },
   { n: 18, title: "JKT48",                            venue: "Istora Senayan",          date: "2025-07-26",                           cat: "Concert"     },
   { n: 19, title: "D.O EXO Solo Concert",             venue: "Indonesia Arena",         date: "2025-08-09",                           cat: "Concert"     },
