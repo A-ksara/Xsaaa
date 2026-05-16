@@ -13,7 +13,6 @@ From K-Pop concerts and music festivals to corporate summits and stage productio
 
 Selected productions include performances and events featuring WayV, SEVENTEEN, aespa, BLACKPINK, Linkin Park, Maroon 5, BABYMONSTER, NCT DREAM, ATEEZ, One Ok Rock, Java Jazz Festival, Djakarta Warehouse Project, Joyland Festival, Pestapora, GIIAS, and more.`;
 
-// ✅ FIX #1: Deklarasi `const skills = [` yang hilang
 const skills = [
   { cat: "Rigging & Setup", items: ["Fixture rigging & hanging", "Venue layout & positioning", "Fixture focus & angle"] },
   { cat: "Cable & Patching", items: ["Cable management & routing", "DMX patching assist", "Power distribution setup", "Cable labeling & wrap"] },
@@ -58,7 +57,6 @@ const events = [
   { n: 34, title: "One Ok Rock",                      venue: "Indonesia Arena",         date: "2026-05-16",                           cat: "Concert"     },
 ];
 
-// ✅ FIX #3: Tambah Production & Exhibition ke filter
 const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
 const CAT_COLOR = {
   Concert:    "#E8A030",
@@ -68,7 +66,6 @@ const CAT_COLOR = {
   Exhibition: "#F472B6",
 };
 
-// ✅ Total event yang benar = 34
 const TOTAL_EVENTS = events.length;
 
 function useInView(threshold = 0.1) {
@@ -80,6 +77,17 @@ function useInView(threshold = 0.1) {
     return () => o.disconnect();
   }, []);
   return [ref, vis];
+}
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
 }
 
 function Fade({ children, delay = 0 }) {
@@ -99,6 +107,7 @@ export default function Portfolio() {
   const [filter, setFilter] = useState("All");
   const [activeSec, setActiveSec] = useState(0);
   const secRefs = useRef([]);
+  const isMobile = useIsMobile();
 
   const filtered = filter === "All" ? events : events.filter(e => e.cat === filter);
   const byYear = filtered.reduce((acc, e) => {
@@ -125,24 +134,30 @@ export default function Portfolio() {
   const scrollTo = i => secRefs.current[i]?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <div style={{ background: BG, color: TEXT, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh" }}>
+    <div style={{ background: BG, color: TEXT, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", overflowX: "hidden" }}>
       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
 
-      {/* Side nav */}
-      <div style={{ position: "fixed", right: 22, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 10, zIndex: 100 }}>
-        {[0,1,2,3].map(i => (
-          <div key={i} onClick={() => scrollTo(i)} style={{ cursor: "pointer" }}>
-            <div style={{
-              width: 5, height: activeSec === i ? 22 : 5,
-              borderRadius: 3, background: activeSec === i ? GOLD : "#333",
-              transition: "all 0.3s",
-            }} />
-          </div>
-        ))}
-      </div>
+      {/* Side nav — hidden on mobile */}
+      {!isMobile && (
+        <div style={{ position: "fixed", right: 22, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 10, zIndex: 100 }}>
+          {[0,1,2,3].map(i => (
+            <div key={i} onClick={() => scrollTo(i)} style={{ cursor: "pointer" }}>
+              <div style={{
+                width: 5, height: activeSec === i ? 22 : 5,
+                borderRadius: 3, background: activeSec === i ? GOLD : "#333",
+                transition: "all 0.3s",
+              }} />
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* ── HERO ── */}
-      <section ref={setRef(0)} style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 8vw", position: "relative", overflow: "hidden" }}>
+      <section ref={setRef(0)} style={{
+        minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center",
+        padding: isMobile ? "0 6vw" : "0 8vw",
+        position: "relative", overflow: "hidden"
+      }}>
         <div style={{ position: "absolute", top: "20%", left: "35%", width: 500, height: 500, background: `radial-gradient(circle, ${GOLD}15 0%, transparent 65%)`, pointerEvents: "none" }} />
         <div style={{ position: "relative" }}>
           <div style={{ fontSize: 10, letterSpacing: 5, color: GOLD, textTransform: "uppercase", marginBottom: 28, animation: "fu 0.8s ease both" }}>
@@ -150,7 +165,7 @@ export default function Portfolio() {
           </div>
           <h1 style={{
             fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(5.5rem, 15vw, 12rem)",
+            fontSize: "clamp(5rem, 15vw, 12rem)",
             fontWeight: 300, lineHeight: 0.88, margin: "0 0 20px",
             letterSpacing: -4, animation: "fu 0.8s ease 0.1s both",
           }}>Xsaaa</h1>
@@ -158,16 +173,18 @@ export default function Portfolio() {
             Shaping the stage, one light at a time.
           </div>
           <div style={{ width: 40, height: 1, background: GOLD, margin: "36px 0", animation: "fu 0.8s ease 0.3s both" }} />
-          {/* ✅ FIX #2: Hero stats pakai TOTAL_EVENTS yang akurat */}
-          <div style={{ display: "flex", gap: 48, animation: "fu 0.8s ease 0.4s both" }}>
+
+          {/* Hero stats — responsive gap */}
+          <div style={{ display: "flex", gap: isMobile ? 28 : 48, animation: "fu 0.8s ease 0.4s both", flexWrap: "wrap" }}>
             {[[String(TOTAL_EVENTS), "Events"], ["19+", "Months"], ["10+", "Venues"]].map(([n, l]) => (
               <div key={l}>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "3rem", fontWeight: 300, color: GOLD, lineHeight: 1 }}>{n}</div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: isMobile ? "2.4rem" : "3rem", fontWeight: 300, color: GOLD, lineHeight: 1 }}>{n}</div>
                 <div style={{ fontSize: 10, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>{l}</div>
               </div>
             ))}
           </div>
-          <div style={{ display: "flex", gap: 12, marginTop: 48, animation: "fu 0.8s ease 0.5s both" }}>
+
+          <div style={{ display: "flex", gap: 12, marginTop: 48, animation: "fu 0.8s ease 0.5s both", flexWrap: "wrap" }}>
             {[["Events →", 3], ["Skills →", 2]].map(([label, target], i) => (
               <button key={label} onClick={() => scrollTo(target)} style={{
                 background: i === 0 ? GOLD : "transparent", color: i === 0 ? "#000" : TEXT,
@@ -188,7 +205,7 @@ export default function Portfolio() {
       </section>
 
       {/* ── ABOUT ── */}
-      <section ref={setRef(1)} style={{ minHeight: "65vh", display: "flex", alignItems: "center", padding: "100px 8vw", background: BG2 }}>
+      <section ref={setRef(1)} style={{ minHeight: "65vh", display: "flex", alignItems: "center", padding: isMobile ? "80px 6vw" : "100px 8vw", background: BG2 }}>
         <div style={{ maxWidth: 760, width: "100%" }}>
           <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>About</div></Fade>
           <Fade delay={0.1}>
@@ -200,9 +217,14 @@ export default function Portfolio() {
             <p style={{ lineHeight: 2, color: "#999", fontSize: "0.93rem", fontWeight: 300, maxWidth: 520, margin: "0 0 48px" }}>{bio}</p>
           </Fade>
           <Fade delay={0.3}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+            {/* ✅ FIX: repeat(4,1fr) → auto-fit minmax, responsive di HP */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
+              gap: 2,
+            }}>
               {[["K-Pop","Concert"],["International","Artist"],["Festival","Outdoor"],["Corporate","& Event"]].map(([a,b]) => (
-                <div key={a} style={{ background: "#1A1A1A", padding: "20px 20px", borderTop: `2px solid #222` }}>
+                <div key={a} style={{ background: "#1A1A1A", padding: "20px 16px", borderTop: `2px solid #222` }}>
                   <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", color: GOLD }}>{a}</div>
                   <div style={{ fontSize: "0.72rem", color: MUTED, letterSpacing: 1, marginTop: 4 }}>{b}</div>
                 </div>
@@ -213,7 +235,7 @@ export default function Portfolio() {
       </section>
 
       {/* ── SKILLS ── */}
-      <section ref={setRef(2)} style={{ minHeight: "65vh", padding: "100px 8vw", background: BG }}>
+      <section ref={setRef(2)} style={{ minHeight: "65vh", padding: isMobile ? "80px 6vw" : "100px 8vw", background: BG }}>
         <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Skills</div></Fade>
         <Fade delay={0.1}>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 56px", letterSpacing: -1, lineHeight: 1.1 }}>
@@ -232,10 +254,9 @@ export default function Portfolio() {
       </section>
 
       {/* ── EVENTS ── */}
-      <section ref={setRef(3)} style={{ minHeight: "80vh", padding: "100px 8vw", background: BG2 }}>
+      <section ref={setRef(3)} style={{ minHeight: "80vh", padding: isMobile ? "80px 6vw" : "100px 8vw", background: BG2 }}>
         <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Event History</div></Fade>
         <Fade delay={0.1}>
-          {/* ✅ FIX #2: Jumlah event sinkron dengan data */}
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 40px", letterSpacing: -1, lineHeight: 1.1 }}>
             {TOTAL_EVENTS} event,<br /><span style={{ fontStyle: "italic", color: GOLD }}>satu perjalanan.</span>
           </h2>
@@ -253,7 +274,7 @@ export default function Portfolio() {
                   background: active ? (c === "All" ? GOLD : color) : "transparent",
                   color: active ? "#000" : MUTED,
                   border: `1px solid ${active ? (c === "All" ? GOLD : color) : "#2A2A2A"}`,
-                  padding: "8px 18px", fontSize: "0.73rem", letterSpacing: 2,
+                  padding: "8px 14px", fontSize: "0.73rem", letterSpacing: 2,
                   textTransform: "uppercase", cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
                   transition: "all 0.2s",
                 }}>
@@ -277,7 +298,7 @@ export default function Portfolio() {
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {byYear[year].map((e, i) => (
                 <Fade key={e.n} delay={i * 0.025}>
-                  <EventRow event={e} />
+                  <EventRow event={e} isMobile={isMobile} />
                 </Fade>
               ))}
             </div>
@@ -286,7 +307,7 @@ export default function Portfolio() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ padding: "56px 8vw", background: "#080808", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+      <footer style={{ padding: isMobile ? "40px 6vw" : "56px 8vw", background: "#080808", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
         <div>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontWeight: 300, letterSpacing: -1 }}>Xsaaa</div>
           <div style={{ fontSize: 9, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>Lighting Crew</div>
@@ -298,7 +319,7 @@ export default function Portfolio() {
         @keyframes fu { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
         @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
         * { box-sizing:border-box; }
-        body { margin:0; }
+        body { margin:0; overflow-x:hidden; }
         ::-webkit-scrollbar { width:3px; }
         ::-webkit-scrollbar-thumb { background:#2A2A2A; border-radius:2px; }
       `}</style>
@@ -328,31 +349,48 @@ function SkillCard({ skill }) {
   );
 }
 
-function EventRow({ event }) {
+function EventRow({ event, isMobile }) {
   const [hov, setHov] = useState(false);
   const d = new Date(event.date);
   const fmt = d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
   const color = CAT_COLOR[event.cat] || GOLD;
   return (
-    <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{
-      display: "grid", gridTemplateColumns: "38px 1fr auto auto",
-      gap: "0 18px", alignItems: "center",
-      padding: "14px 18px",
-      background: hov ? "#181818" : "transparent",
-      borderLeft: `2px solid ${hov ? color : "transparent"}`,
-      transition: "all 0.2s",
-    }}>
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        /* ✅ FIX: mobile sembunyikan kolom tanggal biar ga kepotong */
+        display: "grid",
+        gridTemplateColumns: isMobile ? "28px 1fr auto" : "38px 1fr auto auto",
+        gap: isMobile ? "0 10px" : "0 18px",
+        alignItems: "center",
+        padding: isMobile ? "12px 10px" : "14px 18px",
+        background: hov ? "#181818" : "transparent",
+        borderLeft: `2px solid ${hov ? color : "transparent"}`,
+        transition: "all 0.2s",
+      }}
+    >
       <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: hov ? color : "#333", transition: "color 0.2s" }}>
         {String(event.n).padStart(2, "0")}
       </div>
-      <div>
-        <div style={{ fontSize: "0.86rem", color: hov ? TEXT : "#AAA", fontWeight: 400, transition: "color 0.2s" }}>{event.title}</div>
-        <div style={{ fontSize: "0.73rem", color: MUTED, marginTop: 2 }}>{event.venue}</div>
+      <div style={{ minWidth: 0 }}>
+        <div style={{ fontSize: isMobile ? "0.8rem" : "0.86rem", color: hov ? TEXT : "#AAA", fontWeight: 400, transition: "color 0.2s", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          {event.title}
+        </div>
+        <div style={{ fontSize: "0.7rem", color: MUTED, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          {event.venue}{isMobile ? "" : ""}
+        </div>
       </div>
-      <span style={{ fontSize: 9, letterSpacing: 1.5, color, border: `1px solid ${color}35`, padding: "3px 8px", textTransform: "uppercase", whiteSpace: "nowrap" }}>
+      <span style={{
+        fontSize: 9, letterSpacing: 1.5, color, border: `1px solid ${color}35`,
+        padding: "3px 8px", textTransform: "uppercase", whiteSpace: "nowrap",
+      }}>
         {event.cat}
       </span>
-      <div style={{ fontSize: "0.73rem", color: MUTED, whiteSpace: "nowrap", textAlign: "right" }}>{fmt}</div>
+      {/* Kolom tanggal: hanya tampil di desktop */}
+      {!isMobile && (
+        <div style={{ fontSize: "0.73rem", color: MUTED, whiteSpace: "nowrap", textAlign: "right" }}>{fmt}</div>
+      )}
     </div>
   );
 }
