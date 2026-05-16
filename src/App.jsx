@@ -12,298 +12,64 @@ const bio = `Xsa is a lighting crew based in Indonesia with experience across co
 From K-Pop concerts and music festivals to corporate summits and stage productions, every project represents a combination of technical execution, teamwork, and creative lighting experience. Working behind various live productions has shaped a strong understanding of stage atmosphere, show flow, and production environments under high-pressure situations.
 
 Selected productions include performances and events featuring WayV, SEVENTEEN, aespa, BLACKPINK, Linkin Park, Maroon 5, BABYMONSTER, NCT DREAM, ATEEZ, One Ok Rock, Java Jazz Festival, Djakarta Warehouse Project, Joyland Festival, Pestapora, GIIAS, and more.`;
+
+// ✅ FIX #1: Deklarasi `const skills = [` yang hilang
+const skills = [
   { cat: "Rigging & Setup", items: ["Fixture rigging & hanging", "Venue layout & positioning", "Fixture focus & angle"] },
   { cat: "Cable & Patching", items: ["Cable management & routing", "DMX patching assist", "Power distribution setup", "Cable labeling & wrap"] },
-  { cat: "Operasional", items: [ "Load in / load out", "Fixture troubleshooting", "Crew coordination"] },
+  { cat: "Operasional", items: ["Load in / load out", "Fixture troubleshooting", "Crew coordination"] },
   { cat: "Venue Experience", items: ["Indoor arena (ICE BSD, JIS)", "Outdoor festival (GBK, JIEXPO)", "Hotel ballroom", "Theater & cultural venue"] },
 ];
 
 const events = [
-  {
-    n: 1,
-    title: "WayV Concert — On The Way",
-    venue: "Istora Senayan",
-    date: "2024-10-05",
-    cat: "Concert"
-  },
-
-  {
-    n: 2,
-    title: "JUNI DAY X",
-    venue: "Basket Hall GBK",
-    date: "2024-11-01",
-    cat: "Concert"
-  },
-
-  {
-    n: 3,
-    title: "AESPA Fan Meeting",
-    venue: "ICE BSD Hall 1",
-    date: "2024-11-09",
-    cat: "Concert"
-  },
-
-  {
-    n: 4,
-    title: "Joyland Festival",
-    venue: "Baseball GBK",
-    date: "2024-11-22",
-    endDate: "2024-11-24",
-    cat: "Festival"
-  },
-
-  {
-    n: 5,
-    title: "Djakarta Warehouse Project",
-    venue: "JIExpo",
-    date: "2024-12-13",
-    endDate: "2024-12-15",
-    cat: "Festival"
-  },
-
-  {
-    n: 6,
-    title: "Tokopedia Summit",
-    venue: "Hotel Ritz Carlton",
-    date: "2025-01-15",
-    cat: "Corporate"
-  },
-
-  {
-    n: 7,
-    title: "Maroon 5",
-    venue: "Jakarta International Stadium",
-    date: "2025-02-01",
-    cat: "Concert"
-  },
-
-  {
-    n: 8,
-    title: "SEVENTEEN",
-    venue: "Jakarta International Stadium",
-    date: "2025-02-08",
-    endDate: "2025-02-09",
-    cat: "Concert"
-  },
-
-  {
-    n: 9,
-    title: "Linkin Park",
-    venue: "Madya GBK",
-    date: "2025-02-16",
-    cat: "Concert"
-  },
-
-  {
-    n: 10,
-    title: "BoyNextDoor",
-    venue: "Istora GBK",
-    date: "2025-04-12",
-    cat: "Concert"
-  },
-
-  {
-    n: 11,
-    title: "Putri Indonesia",
-    venue: "Balai Sarbini",
-    date: "2025-04-26",
-    cat: "Production"
-  },
-
-  {
-    n: 12,
-    title: "Putri Indonesia",
-    venue: "JCC GBK",
-    date: "2025-05-01",
-    cat: "Production"
-  },
-
-  {
-    n: 13,
-    title: "Java Jazz Festival",
-    venue: "JIExpo",
-    date: "2025-05-30",
-    endDate: "2025-06-01",
-    cat: "Festival"
-  },
-
-  {
-    n: 14,
-    title: "BABYMONSTER",
-    venue: "ICE BSD Hall 5",
-    date: "2025-06-14",
-    cat: "Concert"
-  },
-
-  {
-    n: 15,
-    title: "MEDCO Event",
-    venue: "Indonesia Arena",
-    date: "2025-06-28",
-    cat: "Corporate"
-  },
-
-  {
-    n: 16,
-    title: "StandUp Event",
-    venue: "Istora Senayan",
-    date: "2025-07-11",
-    endDate: "2025-07-13",
-    cat: "Production"
-  },
-
-  {
-    n: 17,
-    title: "GIIAS",
-    venue: "ICE BSD",
-    date: "2025-07-24",
-    endDate: "2025-08-03",
-    cat: "Exhibition"
-  },
-
-  {
-    n: 18,
-    title: "JKT48",
-    venue: "Istora Senayan",
-    date: "2025-07-26",
-    cat: "Concert"
-  },
-
-  {
-    n: 19,
-    title: "D.O EXO Solo Concert",
-    venue: "Indonesia Arena",
-    date: "2025-08-09",
-    cat: "Concert"
-  },
-
-  {
-    n: 20,
-    title: "LaLaLa Festival",
-    venue: "Gambir Expo",
-    date: "2025-08-22",
-    endDate: "2025-08-23",
-    cat: "Festival"
-  },
-
-  {
-    n: 21,
-    title: "Pestapora 2025",
-    venue: "Gambir Expo",
-    date: "2025-09-05",
-    endDate: "2025-09-07",
-    cat: "Festival"
-  },
-
-  {
-    n: 22,
-    title: "NCT DREAM — The Future",
-    venue: "GBK",
-    date: "2025-09-26",
-    endDate: "2025-09-27",
-    cat: "Concert"
-  },
-
-  {
-    n: 23,
-    title: "The Little Mermaid Junior",
-    venue: "Taman Ismail Marzuki",
-    date: "2025-10-05",
-    cat: "Production"
-  },
-
-  {
-    n: 24,
-    title: "BLACKPINK",
-    venue: "GBK Stadium",
-    date: "2025-11-01",
-    endDate: "2025-11-02",
-    cat: "Concert"
-  },
-
-  {
-    n: 25,
-    title: "Hatsune Miku",
-    venue: "Tenis Indoor GBK",
-    date: "2025-11-12",
-    cat: "Concert"
-  },
-
-  {
-    n: 26,
-    title: "Djakarta Warehouse Project Bali",
-    venue: "GWK Bali",
-    date: "2025-12-12",
-    endDate: "2025-12-14",
-    cat: "Festival"
-  },
-
-  {
-    n: 27,
-    title: "Potato Head Beach Party",
-    venue: "Potato Head Bali",
-    date: "2025-12-31",
-    cat: "Concert"
-  },
-
-  {
-    n: 28,
-    title: "ATEEZ",
-    venue: "ICE BSD",
-    date: "2026-01-31",
-    cat: "Concert"
-  },
-
-  {
-    n: 29,
-    title: "Taeyong — Remastered",
-    venue: "Tenis Indoor GBK",
-    date: "2026-02-07",
-    cat: "Concert"
-  },
-
-  {
-    n: 30,
-    title: "Josh Groban Gems World Tour 2026",
-    venue: "Ritz Carlton Jakarta",
-    date: "2026-02-15",
-    cat: "Concert"
-  },
-
-  {
-    n: 31,
-    title: "AESPA — SYNK",
-    venue: "ICE BSD Hall 5",
-    date: "2026-04-04",
-    cat: "Concert"
-  },
-
-  {
-    n: 32,
-    title: "NCT WISH",
-    venue: "ICE BSD Hall 5",
-    date: "2026-04-11",
-    cat: "Concert"
-  },
-
-  {
-    n: 33,
-    title: "CNBLUE — 3LOGY",
-    venue: "ICE BSD Hall 1",
-    date: "2026-04-18",
-    cat: "Concert"
-  },
-
-  {
-    n: 34,
-    title: "One Ok Rock",
-    venue: "Indonesia Arena",
-    date: "2026-05-16",
-    cat: "Concert"
-  }
+  { n: 1,  title: "WayV Concert — On The Way",       venue: "Istora Senayan",          date: "2024-10-05",                           cat: "Concert"     },
+  { n: 2,  title: "JUNI DAY X",                       venue: "Basket Hall GBK",         date: "2024-11-01",                           cat: "Concert"     },
+  { n: 3,  title: "AESPA Fan Meeting",                venue: "ICE BSD Hall 1",          date: "2024-11-09",                           cat: "Concert"     },
+  { n: 4,  title: "Joyland Festival",                 venue: "Baseball GBK",            date: "2024-11-22", endDate: "2024-11-24",    cat: "Festival"    },
+  { n: 5,  title: "Djakarta Warehouse Project",       venue: "JIExpo",                  date: "2024-12-13", endDate: "2024-12-15",    cat: "Festival"    },
+  { n: 6,  title: "Tokopedia Summit",                 venue: "Hotel Ritz Carlton",      date: "2025-01-15",                           cat: "Corporate"   },
+  { n: 7,  title: "Maroon 5",                         venue: "Jakarta International Stadium", date: "2025-02-01",                     cat: "Concert"     },
+  { n: 8,  title: "SEVENTEEN",                        venue: "Jakarta International Stadium", date: "2025-02-08", endDate: "2025-02-09", cat: "Concert"  },
+  { n: 9,  title: "Linkin Park",                      venue: "Madya GBK",               date: "2025-02-16",                           cat: "Concert"     },
+  { n: 10, title: "BoyNextDoor",                      venue: "Istora GBK",              date: "2025-04-12",                           cat: "Concert"     },
+  { n: 11, title: "Putri Indonesia",                  venue: "Balai Sarbini",           date: "2025-04-26",                           cat: "Production"  },
+  { n: 12, title: "Putri Indonesia",                  venue: "JCC GBK",                 date: "2025-05-01",                           cat: "Production"  },
+  { n: 13, title: "Java Jazz Festival",               venue: "JIExpo",                  date: "2025-05-30", endDate: "2025-06-01",    cat: "Festival"    },
+  { n: 14, title: "BABYMONSTER",                      venue: "ICE BSD Hall 5",          date: "2025-06-14",                           cat: "Concert"     },
+  { n: 15, title: "MEDCO Event",                      venue: "Indonesia Arena",         date: "2025-06-28",                           cat: "Corporate"   },
+  { n: 16, title: "StandUp Event",                    venue: "Istora Senayan",          date: "2025-07-11", endDate: "2025-07-13",    cat: "Production"  },
+  { n: 17, title: "GIIAS",                            venue: "ICE BSD",                 date: "2025-07-24", endDate: "2025-08-03",    cat: "Exhibition"  },
+  { n: 18, title: "JKT48",                            venue: "Istora Senayan",          date: "2025-07-26",                           cat: "Concert"     },
+  { n: 19, title: "D.O EXO Solo Concert",             venue: "Indonesia Arena",         date: "2025-08-09",                           cat: "Concert"     },
+  { n: 20, title: "LaLaLa Festival",                  venue: "Gambir Expo",             date: "2025-08-22", endDate: "2025-08-23",    cat: "Festival"    },
+  { n: 21, title: "Pestapora 2025",                   venue: "Gambir Expo",             date: "2025-09-05", endDate: "2025-09-07",    cat: "Festival"    },
+  { n: 22, title: "NCT DREAM — The Future",           venue: "GBK",                     date: "2025-09-26", endDate: "2025-09-27",    cat: "Concert"     },
+  { n: 23, title: "The Little Mermaid Junior",        venue: "Taman Ismail Marzuki",    date: "2025-10-05",                           cat: "Production"  },
+  { n: 24, title: "BLACKPINK",                        venue: "GBK Stadium",             date: "2025-11-01", endDate: "2025-11-02",    cat: "Concert"     },
+  { n: 25, title: "Hatsune Miku",                     venue: "Tenis Indoor GBK",        date: "2025-11-12",                           cat: "Concert"     },
+  { n: 26, title: "Djakarta Warehouse Project Bali",  venue: "GWK Bali",                date: "2025-12-12", endDate: "2025-12-14",    cat: "Festival"    },
+  { n: 27, title: "Potato Head Beach Party",          venue: "Potato Head Bali",        date: "2025-12-31",                           cat: "Concert"     },
+  { n: 28, title: "ATEEZ",                            venue: "ICE BSD",                 date: "2026-01-31",                           cat: "Concert"     },
+  { n: 29, title: "Taeyong — Remastered",             venue: "Tenis Indoor GBK",        date: "2026-02-07",                           cat: "Concert"     },
+  { n: 30, title: "Josh Groban Gems World Tour 2026", venue: "Ritz Carlton Jakarta",    date: "2026-02-15",                           cat: "Concert"     },
+  { n: 31, title: "AESPA — SYNK",                    venue: "ICE BSD Hall 5",          date: "2026-04-04",                           cat: "Concert"     },
+  { n: 32, title: "NCT WISH",                         venue: "ICE BSD Hall 5",          date: "2026-04-11",                           cat: "Concert"     },
+  { n: 33, title: "CNBLUE — 3LOGY",                  venue: "ICE BSD Hall 1",          date: "2026-04-18",                           cat: "Concert"     },
+  { n: 34, title: "One Ok Rock",                      venue: "Indonesia Arena",         date: "2026-05-16",                           cat: "Concert"     },
 ];
-const CATS = ["All", "Concert", "Festival", "Corporate", ];
-const CAT_COLOR = { Concert: "#E8A030", Festival: "#60A5FA", Corporate: "#A78BFA", Wedding: "#F472B6" };
+
+// ✅ FIX #3: Tambah Production & Exhibition ke filter
+const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
+const CAT_COLOR = {
+  Concert:    "#E8A030",
+  Festival:   "#60A5FA",
+  Corporate:  "#A78BFA",
+  Production: "#34D399",
+  Exhibition: "#F472B6",
+};
+
+// ✅ Total event yang benar = 34
+const TOTAL_EVENTS = events.length;
 
 function useInView(threshold = 0.1) {
   const ref = useRef(null);
@@ -392,8 +158,9 @@ export default function Portfolio() {
             Shaping the stage, one light at a time.
           </div>
           <div style={{ width: 40, height: 1, background: GOLD, margin: "36px 0", animation: "fu 0.8s ease 0.3s both" }} />
+          {/* ✅ FIX #2: Hero stats pakai TOTAL_EVENTS yang akurat */}
           <div style={{ display: "flex", gap: 48, animation: "fu 0.8s ease 0.4s both" }}>
-            {[["40","Events"],["19+","Months"],["10+","Venues"]].map(([n,l]) => (
+            {[[String(TOTAL_EVENTS), "Events"], ["19+", "Months"], ["10+", "Venues"]].map(([n, l]) => (
               <div key={l}>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "3rem", fontWeight: 300, color: GOLD, lineHeight: 1 }}>{n}</div>
                 <div style={{ fontSize: 10, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>{l}</div>
@@ -401,7 +168,7 @@ export default function Portfolio() {
             ))}
           </div>
           <div style={{ display: "flex", gap: 12, marginTop: 48, animation: "fu 0.8s ease 0.5s both" }}>
-            {[["Events →", 3],["Skills →", 2]].map(([label, target], i) => (
+            {[["Events →", 3], ["Skills →", 2]].map(([label, target], i) => (
               <button key={label} onClick={() => scrollTo(target)} style={{
                 background: i === 0 ? GOLD : "transparent", color: i === 0 ? "#000" : TEXT,
                 border: `1px solid ${i === 0 ? GOLD : "#333"}`, padding: "11px 26px",
@@ -434,7 +201,7 @@ export default function Portfolio() {
           </Fade>
           <Fade delay={0.3}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
-              {[["K-Pop","Concert"],["International","Artist"],["Festival","Outdoor"],["Corporate","& Wedding"]].map(([a,b]) => (
+              {[["K-Pop","Concert"],["International","Artist"],["Festival","Outdoor"],["Corporate","& Event"]].map(([a,b]) => (
                 <div key={a} style={{ background: "#1A1A1A", padding: "20px 20px", borderTop: `2px solid #222` }}>
                   <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", color: GOLD }}>{a}</div>
                   <div style={{ fontSize: "0.72rem", color: MUTED, letterSpacing: 1, marginTop: 4 }}>{b}</div>
@@ -450,7 +217,7 @@ export default function Portfolio() {
         <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Skills</div></Fade>
         <Fade delay={0.1}>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 56px", letterSpacing: -1, lineHeight: 1.1 }}>
-            What i'm doing <br /><span style={{ fontStyle: "italic", color: GOLD }}>at field.</span>
+            What i&apos;m doing <br /><span style={{ fontStyle: "italic", color: GOLD }}>at field.</span>
           </h2>
         </Fade>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 2 }}>
@@ -468,8 +235,9 @@ export default function Portfolio() {
       <section ref={setRef(3)} style={{ minHeight: "80vh", padding: "100px 8vw", background: BG2 }}>
         <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Event History</div></Fade>
         <Fade delay={0.1}>
+          {/* ✅ FIX #2: Jumlah event sinkron dengan data */}
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 40px", letterSpacing: -1, lineHeight: 1.1 }}>
-            39 event,<br /><span style={{ fontStyle: "italic", color: GOLD }}>satu perjalanan.</span>
+            {TOTAL_EVENTS} event,<br /><span style={{ fontStyle: "italic", color: GOLD }}>satu perjalanan.</span>
           </h2>
         </Fade>
 
@@ -479,10 +247,12 @@ export default function Portfolio() {
             {CATS.map(c => {
               const count = c === "All" ? events.length : events.filter(e => e.cat === c).length;
               const active = filter === c;
+              const color = CAT_COLOR[c] || GOLD;
               return (
                 <button key={c} onClick={() => setFilter(c)} style={{
-                  background: active ? GOLD : "transparent", color: active ? "#000" : MUTED,
-                  border: `1px solid ${active ? GOLD : "#2A2A2A"}`,
+                  background: active ? (c === "All" ? GOLD : color) : "transparent",
+                  color: active ? "#000" : MUTED,
+                  border: `1px solid ${active ? (c === "All" ? GOLD : color) : "#2A2A2A"}`,
                   padding: "8px 18px", fontSize: "0.73rem", letterSpacing: 2,
                   textTransform: "uppercase", cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
                   transition: "all 0.2s",
