@@ -7,10 +7,11 @@ const TEXT = "#F0EDE8";
 const MUTED = "#666";
 const DIMMED = "#2A2A2A";
 
-const bio = `Xsa has been involved in the event lighting industry, contributing to a wide range of national and international productions across Indonesia. From K-Pop concerts at ICE BSD and large-scale festival stages in Bali, to luxury weddings at Park Hyatt and prestigious concert venues around GBK, each project has become both a creative challenge and a space for continuous growth.
+const bio = `Xsa is a lighting crew based in Indonesia with experience across concerts, festivals, corporate events, exhibitions, and large-scale productions. Over the years, Xsa has contributed to a wide range of national and international events at major venues such as Istora Senayan, ICE BSD, JIExpo, Indonesia Arena, JIS, and GBK.
 
-With experience across diverse event formats and venues, Xsa combines technical execution with adaptability, working behind the scenes to help transform concepts into immersive visual experiences.`;
-const skills = [
+From K-Pop concerts and music festivals to corporate summits and stage productions, every project represents a combination of technical execution, teamwork, and creative lighting experience. Working behind various live productions has shaped a strong understanding of stage atmosphere, show flow, and production environments under high-pressure situations.
+
+Selected productions include performances and events featuring WayV, SEVENTEEN, aespa, BLACKPINK, Linkin Park, Maroon 5, BABYMONSTER, NCT DREAM, ATEEZ, One Ok Rock, Java Jazz Festival, Djakarta Warehouse Project, Joyland Festival, Pestapora, GIIAS, and more.`;
   { cat: "Rigging & Setup", items: ["Fixture rigging & hanging", "Venue layout & positioning", "Fixture focus & angle"] },
   { cat: "Cable & Patching", items: ["Cable management & routing", "DMX patching assist", "Power distribution setup", "Cable labeling & wrap"] },
   { cat: "Operasional", items: [ "Load in / load out", "Fixture troubleshooting", "Crew coordination"] },
@@ -18,50 +19,289 @@ const skills = [
 ];
 
 const events = [
-  { n: 1,  title: "WayV Concert — On The Way",     venue: "Istora Senayan",           date: "2024-10-05", cat: "Concert" },
-  { n: 2,  title: "Siraman Rohani Kristen",          venue: "Paskal Bandung 3rd Floor", date: "2024-10-13", cat: "Corporate" },
-  { n: 3,  title: "Event IN BINRI",                  venue: "Jakarta Selatan",          date: "2024-10-19", cat: "Corporate" },
-  { n: 4,  title: "Juni Day X",                      venue: "Basket Hall GBK",          date: "2024-11-01", cat: "Concert" },
-  { n: 5,  title: "FanMeet aespa",                   venue: "ICE BSD Hall 1",           date: "2024-11-09", cat: "Concert" },
-  { n: 6,  title: "Joyland Festival",                venue: "Baseball GBK",             date: "2024-11-22", cat: "Festival" },
-  { n: 7,  title: "DWP 2024",                        venue: "JIEXPO",                   date: "2024-12-13", cat: "Festival" },
-  { n: 8,  title: "Summit Tokopedia",                venue: "Hotel Ritz 4th Floor",     date: "2025-01-15", cat: "Corporate" },
-  { n: 9,  title: "Maroon 5 Concert",                venue: "JIS",                      date: "2025-02-01", cat: "Concert" },
-  { n: 10, title: "SEVENTEEN World Tour",            venue: "JIS",                      date: "2025-02-08", cat: "Concert" },
-  { n: 11, title: "Linkin Park Tour",                venue: "Madya GBK",                date: "2025-02-16", cat: "Concert" },
-  { n: 12, title: "Wedding",                         venue: "Hotel Raffles Jakarta",    date: "2025-02-24", cat: "Wedding" },
-  { n: 13, title: "BoyNextDoor Concert",             venue: "Istora GBK",               date: "2025-04-12", cat: "Concert" },
-  { n: 14, title: "Putri Indonesia",                 venue: "Balai Sarbini",            date: "2025-04-26", cat: "Corporate" },
-  { n: 15, title: "Putri Indonesia",                 venue: "JCC GBK",                  date: "2025-05-01", cat: "Corporate" },
-  { n: 16, title: "Java Jazz Festival",              venue: "JIEXPO",                   date: "2025-05-30", cat: "Festival" },
-  { n: 17, title: "BABY MONSTER Concert",            venue: "ICE BSD Hall 5",           date: "2025-06-14", cat: "Concert" },
-  { n: 18, title: "MEDCO",                           venue: "Indonesia Arena",          date: "2025-06-28", cat: "Corporate" },
-  { n: 19, title: "StandUp Comedy",                  venue: "Istora Senayan",           date: "2025-07-11", cat: "Corporate" },
-  { n: 20, title: "GIIAS 2025",                      venue: "ICE BSD",                  date: "2025-07-24", cat: "Corporate" },
-  { n: 21, title: "JKT48 Concert",                   venue: "Istora Senayan",           date: "2025-07-26", cat: "Concert" },
-  { n: 22, title: "D.O EXO Solo Concert",            venue: "Indonesia Arena",          date: "2025-08-09", cat: "Concert" },
-  { n: 23, title: "Wedding",                         venue: "Park Hyatt Jakarta",       date: "2025-08-17", cat: "Wedding" },
-  { n: 24, title: "LaLaLa Festival",                 venue: "Gambir Expo",              date: "2025-08-22", cat: "Festival" },
-  { n: 25, title: "Pestapora 2025",                  venue: "Gambir Expo",              date: "2025-09-05", cat: "Festival" },
-  { n: 26, title: "NCT Dream — Future",              venue: "Indonesia Arena",          date: "2025-09-26", cat: "Concert" },
-  { n: 27, title: "Theater",                         venue: "Taman Ismail Marzuki",     date: "2025-10-05", cat: "Corporate" },
-  { n: 28, title: "Simulasi Acara Demo",             venue: "-",                        date: "2025-10-09", cat: "Corporate" },
-  { n: 29, title: "BLACKPINK Concert",               venue: "GBK Stadion",              date: "2025-11-01", cat: "Concert" },
-  { n: 30, title: "Hatsune Miku Concert",            venue: "Tenis Indoor GBK",         date: "2025-11-12", cat: "Concert" },
-  { n: 31, title: "Set Up Only",                     venue: "PIK",                      date: "2025-11-28", cat: "Corporate" },
-  { n: 32, title: "DWP 2025",                        venue: "GWK Bali",                 date: "2025-12-12", cat: "Festival" },
-  { n: 33, title: "Potato Head Beach Party",         venue: "Bali",                     date: "2025-12-31", cat: "Festival" },
-  { n: 34, title: "Ateez Concert",                   venue: "ICE BSD",                  date: "2026-01-31", cat: "Concert" },
-  { n: 35, title: "Taeyong — Remastered",            venue: "Tenis Indoor GBK",         date: "2026-02-07", cat: "Concert" },
-  { n: 36, title: "Josh Groban — Gems World Tour",   venue: "Ritz Carlton Jakarta",     date: "2026-02-15", cat: "Concert" },
-  { n: 37, title: "aespa — SYNK",                   venue: "ICE BSD Hall 5",           date: "2026-04-04", cat: "Concert" },
-  { n: 38, title: "NCT WISH Concert",                venue: "ICE BSD Hall 5",           date: "2026-04-11", cat: "Concert" },
-  { n: 39, title: "CNBLUE — 3LOGY",                 venue: "ICE BSD Hall 1",           date: "2026-04-18", cat: "Concert" },
-  { n: 40, title: "ONE OK ROCK - DETOX (UPCOMING)",                 venue: "Indonesia Arena",           date: "2026-05-16", cat: "Concert" },
-  { n: 41, title: "LAUFEY (UPCOMING)",                 venue: "NICE PIK 2",           date: "2026-05-23", cat: "Concert" },
-  
-];
+  {
+    n: 1,
+    title: "WayV Concert — On The Way",
+    venue: "Istora Senayan",
+    date: "2024-10-05",
+    cat: "Concert"
+  },
 
+  {
+    n: 2,
+    title: "JUNI DAY X",
+    venue: "Basket Hall GBK",
+    date: "2024-11-01",
+    cat: "Concert"
+  },
+
+  {
+    n: 3,
+    title: "AESPA Fan Meeting",
+    venue: "ICE BSD Hall 1",
+    date: "2024-11-09",
+    cat: "Concert"
+  },
+
+  {
+    n: 4,
+    title: "Joyland Festival",
+    venue: "Baseball GBK",
+    date: "2024-11-22",
+    endDate: "2024-11-24",
+    cat: "Festival"
+  },
+
+  {
+    n: 5,
+    title: "Djakarta Warehouse Project",
+    venue: "JIExpo",
+    date: "2024-12-13",
+    endDate: "2024-12-15",
+    cat: "Festival"
+  },
+
+  {
+    n: 6,
+    title: "Tokopedia Summit",
+    venue: "Hotel Ritz Carlton",
+    date: "2025-01-15",
+    cat: "Corporate"
+  },
+
+  {
+    n: 7,
+    title: "Maroon 5",
+    venue: "Jakarta International Stadium",
+    date: "2025-02-01",
+    cat: "Concert"
+  },
+
+  {
+    n: 8,
+    title: "SEVENTEEN",
+    venue: "Jakarta International Stadium",
+    date: "2025-02-08",
+    endDate: "2025-02-09",
+    cat: "Concert"
+  },
+
+  {
+    n: 9,
+    title: "Linkin Park",
+    venue: "Madya GBK",
+    date: "2025-02-16",
+    cat: "Concert"
+  },
+
+  {
+    n: 10,
+    title: "BoyNextDoor",
+    venue: "Istora GBK",
+    date: "2025-04-12",
+    cat: "Concert"
+  },
+
+  {
+    n: 11,
+    title: "Putri Indonesia",
+    venue: "Balai Sarbini",
+    date: "2025-04-26",
+    cat: "Production"
+  },
+
+  {
+    n: 12,
+    title: "Putri Indonesia",
+    venue: "JCC GBK",
+    date: "2025-05-01",
+    cat: "Production"
+  },
+
+  {
+    n: 13,
+    title: "Java Jazz Festival",
+    venue: "JIExpo",
+    date: "2025-05-30",
+    endDate: "2025-06-01",
+    cat: "Festival"
+  },
+
+  {
+    n: 14,
+    title: "BABYMONSTER",
+    venue: "ICE BSD Hall 5",
+    date: "2025-06-14",
+    cat: "Concert"
+  },
+
+  {
+    n: 15,
+    title: "MEDCO Event",
+    venue: "Indonesia Arena",
+    date: "2025-06-28",
+    cat: "Corporate"
+  },
+
+  {
+    n: 16,
+    title: "StandUp Event",
+    venue: "Istora Senayan",
+    date: "2025-07-11",
+    endDate: "2025-07-13",
+    cat: "Production"
+  },
+
+  {
+    n: 17,
+    title: "GIIAS",
+    venue: "ICE BSD",
+    date: "2025-07-24",
+    endDate: "2025-08-03",
+    cat: "Exhibition"
+  },
+
+  {
+    n: 18,
+    title: "JKT48",
+    venue: "Istora Senayan",
+    date: "2025-07-26",
+    cat: "Concert"
+  },
+
+  {
+    n: 19,
+    title: "D.O EXO Solo Concert",
+    venue: "Indonesia Arena",
+    date: "2025-08-09",
+    cat: "Concert"
+  },
+
+  {
+    n: 20,
+    title: "LaLaLa Festival",
+    venue: "Gambir Expo",
+    date: "2025-08-22",
+    endDate: "2025-08-23",
+    cat: "Festival"
+  },
+
+  {
+    n: 21,
+    title: "Pestapora 2025",
+    venue: "Gambir Expo",
+    date: "2025-09-05",
+    endDate: "2025-09-07",
+    cat: "Festival"
+  },
+
+  {
+    n: 22,
+    title: "NCT DREAM — The Future",
+    venue: "GBK",
+    date: "2025-09-26",
+    endDate: "2025-09-27",
+    cat: "Concert"
+  },
+
+  {
+    n: 23,
+    title: "The Little Mermaid Junior",
+    venue: "Taman Ismail Marzuki",
+    date: "2025-10-05",
+    cat: "Production"
+  },
+
+  {
+    n: 24,
+    title: "BLACKPINK",
+    venue: "GBK Stadium",
+    date: "2025-11-01",
+    endDate: "2025-11-02",
+    cat: "Concert"
+  },
+
+  {
+    n: 25,
+    title: "Hatsune Miku",
+    venue: "Tenis Indoor GBK",
+    date: "2025-11-12",
+    cat: "Concert"
+  },
+
+  {
+    n: 26,
+    title: "Djakarta Warehouse Project Bali",
+    venue: "GWK Bali",
+    date: "2025-12-12",
+    endDate: "2025-12-14",
+    cat: "Festival"
+  },
+
+  {
+    n: 27,
+    title: "Potato Head Beach Party",
+    venue: "Potato Head Bali",
+    date: "2025-12-31",
+    cat: "Party"
+  },
+
+  {
+    n: 28,
+    title: "ATEEZ",
+    venue: "ICE BSD",
+    date: "2026-01-31",
+    cat: "Concert"
+  },
+
+  {
+    n: 29,
+    title: "Taeyong — Remastered",
+    venue: "Tenis Indoor GBK",
+    date: "2026-02-07",
+    cat: "Concert"
+  },
+
+  {
+    n: 30,
+    title: "Josh Groban Gems World Tour 2026",
+    venue: "Ritz Carlton Jakarta",
+    date: "2026-02-15",
+    cat: "Concert"
+  },
+
+  {
+    n: 31,
+    title: "AESPA — SYNK",
+    venue: "ICE BSD Hall 5",
+    date: "2026-04-04",
+    cat: "Concert"
+  },
+
+  {
+    n: 32,
+    title: "NCT WISH",
+    venue: "ICE BSD Hall 5",
+    date: "2026-04-11",
+    cat: "Concert"
+  },
+
+  {
+    n: 33,
+    title: "CNBLUE — 3LOGY",
+    venue: "ICE BSD Hall 1",
+    date: "2026-04-18",
+    cat: "Concert"
+  },
+
+  {
+    n: 34,
+    title: "One Ok Rock",
+    venue: "Indonesia Arena",
+    date: "2026-05-16",
+    cat: "Concert"
+  }
+];
 const CATS = ["All", "Concert", "Festival", "Corporate", "Wedding"];
 const CAT_COLOR = { Concert: "#E8A030", Festival: "#60A5FA", Corporate: "#A78BFA", Wedding: "#F472B6" };
 
