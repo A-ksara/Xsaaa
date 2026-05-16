@@ -302,7 +302,7 @@ const events = [
     cat: "Concert"
   }
 ];
-const CATS = ["All", "Concert", "Festival", "Corporate", " Production"];
+const CATS = ["All", "Concert", "Festival", "Corporate", ];
 const CAT_COLOR = { Concert: "#E8A030", Festival: "#60A5FA", Corporate: "#A78BFA", Wedding: "#F472B6" };
 
 function useInView(threshold = 0.1) {
