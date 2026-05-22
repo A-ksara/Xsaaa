@@ -56,6 +56,7 @@ const events = [
   { n: 33, title: "CNBLUE — 3LOGY",                  venue: "ICE BSD Hall 1",          date: "2026-04-18",                           cat: "Concert"     },
   { n: 34, title: "ONE OK ROCK — DETOX",                      venue: "Indonesia Arena",         date: "2026-05-16",                           cat: "Concert"     },
   { n: 35, title: "LAUFEY — A MATTER OF TIME TOUR",  venue: "NICE PIK 2 - Hall 1",              date: "2026-05-23",                           cat: "Concert"     },
+  { n: 36, title: "JAVA JAZZ 2026", venue: "NICE PIK 2", date: "2026-05-29-31", cat: " Festival" },
 ];
 
 const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
