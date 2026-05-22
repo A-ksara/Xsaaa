@@ -270,7 +270,7 @@ export default function Portfolio() {
         <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Event History</div></Fade>
         <Fade delay={0.1}>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 40px", letterSpacing: -1, lineHeight: 1.1 }}>
-            {TOTAL_EVENTS} event,<br /><span style={{ fontStyle: "italic", color: GOLD }}>satu perjalanan.</span>
+            {TOTAL_EVENTS} event,<br /><span style={{ fontStyle: "italic", color: GOLD }}>One Journey.</span>
           </h2>
         </Fade>
 
