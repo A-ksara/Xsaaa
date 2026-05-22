@@ -17,7 +17,7 @@ const skills = [
   { cat: "Rigging & Setup", items: ["Fixture rigging & hanging", "Venue layout & positioning", "Fixture focus & angle"] },
   { cat: "Cable & Patching", items: ["Cable management & routing", "DMX patching assist", "Power distribution setup", "Cable labeling & wrap"] },
   { cat: "Operasional", items: ["Load in / load out", "Fixture troubleshooting", "Crew coordination"] },
-  { cat: "Venue Experience", items: ["Indoor arena (ICE BSD, JIS)", "Outdoor festival (GBK, JIEXPO)", "Hotel ballroom", "Theater & cultural venue"] },
+  { cat: "Venue Experience", items: ["Indoor arena", "Outdoor festival", "Hotel ballroom", "Theater & cultural venue"] },
 ];
 
 const events = [
