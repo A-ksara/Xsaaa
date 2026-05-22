@@ -69,6 +69,14 @@ const CAT_COLOR = {
 
 const TOTAL_EVENTS = events.length;
 
+const START_DATE = new Date("2024-10-01");
+const getMonthsActive = () => {
+  const now = new Date();
+  const years = now.getFullYear() - START_DATE.getFullYear();
+  const months = now.getMonth() - START_DATE.getMonth();
+  return years * 12 + months;
+};
+
 function useInView(threshold = 0.1) {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
@@ -177,7 +185,7 @@ export default function Portfolio() {
 
           {/* Hero stats — responsive gap */}
           <div style={{ display: "flex", gap: isMobile ? 28 : 48, animation: "fu 0.8s ease 0.4s both", flexWrap: "wrap" }}>
-            {[[String(TOTAL_EVENTS), "Events"], ["19+", "Months"], ["10+", "Venues"]].map(([n, l]) => (
+            {[[String(TOTAL_EVENTS), "Events"], [`${monthsActive}+`, "Months"], ["10+", "Venues"]].map(([n, l]) => (
               <div key={l}>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: isMobile ? "2.4rem" : "3rem", fontWeight: 300, color: GOLD, lineHeight: 1 }}>{n}</div>
                 <div style={{ fontSize: 10, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>{l}</div>
