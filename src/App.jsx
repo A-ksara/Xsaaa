@@ -55,7 +55,7 @@ const events = [
   { n: 32, title: "NCT WISH — INTO THE WISH: OUR WISH",                         venue: "ICE BSD Hall 5",          date: "2026-04-11",                           cat: "Concert"     },
   { n: 33, title: "CNBLUE — 3LOGY",                  venue: "ICE BSD Hall 1",          date: "2026-04-18",                           cat: "Concert"     },
   { n: 34, title: "ONE OK ROCK — DETOX",                      venue: "Indonesia Arena",         date: "2026-05-16",                           cat: "Concert"     },
-  { n: 35, title: "LAUFEY — A MATTER OF TIME TOUR", venue: "NICE PIK 2", date: "2026-05-23", cat: "Concert" },
+  { n: 35, title: "LAUFEY — A MATTER OF TIME TOUR",  venue: "NICE PIK 2",              date: "2026-05-23",                           cat: "Concert"     },
 ];
 
 const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
@@ -115,6 +115,7 @@ function Fade({ children, delay = 0 }) {
 export default function Portfolio() {
   const [filter, setFilter] = useState("All");
   const [activeSec, setActiveSec] = useState(0);
+  const [monthsActive] = useState(() => getMonthsActive());
   const secRefs = useRef([]);
   const isMobile = useIsMobile();
 
@@ -146,7 +147,6 @@ export default function Portfolio() {
     <div style={{ background: BG, color: TEXT, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", overflowX: "hidden" }}>
       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
 
-      {/* Side nav — hidden on mobile */}
       {!isMobile && (
         <div style={{ position: "fixed", right: 22, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 10, zIndex: 100 }}>
           {[0,1,2,3].map(i => (
@@ -183,9 +183,12 @@ export default function Portfolio() {
           </div>
           <div style={{ width: 40, height: 1, background: GOLD, margin: "36px 0", animation: "fu 0.8s ease 0.3s both" }} />
 
-          {/* Hero stats — responsive gap */}
           <div style={{ display: "flex", gap: isMobile ? 28 : 48, animation: "fu 0.8s ease 0.4s both", flexWrap: "wrap" }}>
-            {[[String(TOTAL_EVENTS), "Events"], [`${monthsActive}+`, "Months"], ["10+", "Venues"]].map(([n, l]) => (
+            {[
+              [String(TOTAL_EVENTS), "Events"],
+              [`${monthsActive}+`, "Months"],
+              ["10+", "Venues"]
+            ].map(([n, l]) => (
               <div key={l}>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: isMobile ? "2.4rem" : "3rem", fontWeight: 300, color: GOLD, lineHeight: 1 }}>{n}</div>
                 <div style={{ fontSize: 10, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>{l}</div>
@@ -226,7 +229,6 @@ export default function Portfolio() {
             <p style={{ lineHeight: 2, color: "#999", fontSize: "0.93rem", fontWeight: 300, maxWidth: 520, margin: "0 0 48px" }}>{bio}</p>
           </Fade>
           <Fade delay={0.3}>
-            {/* ✅ FIX: repeat(4,1fr) → auto-fit minmax, responsive di HP */}
             <div style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
@@ -368,7 +370,6 @@ function EventRow({ event, isMobile }) {
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        /* ✅ FIX: mobile sembunyikan kolom tanggal biar ga kepotong */
         display: "grid",
         gridTemplateColumns: isMobile ? "28px 1fr auto" : "38px 1fr auto auto",
         gap: isMobile ? "0 10px" : "0 18px",
@@ -387,7 +388,7 @@ function EventRow({ event, isMobile }) {
           {event.title}
         </div>
         <div style={{ fontSize: "0.7rem", color: MUTED, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-          {event.venue}{isMobile ? "" : ""}
+          {event.venue}
         </div>
       </div>
       <span style={{
@@ -396,7 +397,6 @@ function EventRow({ event, isMobile }) {
       }}>
         {event.cat}
       </span>
-      {/* Kolom tanggal: hanya tampil di desktop */}
       {!isMobile && (
         <div style={{ fontSize: "0.73rem", color: MUTED, whiteSpace: "nowrap", textAlign: "right" }}>{fmt}</div>
       )}
