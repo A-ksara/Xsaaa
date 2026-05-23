@@ -17,7 +17,7 @@ const skills = [
   { cat: "Rigging & Setup", items: ["Fixture rigging & hanging", "Venue layout & positioning", "Fixture focus & angle"] },
   { cat: "Cable & Patching", items: ["Cable management & routing", "DMX patching assist", "Power distribution setup", "Cable labeling & wrap"] },
   { cat: "Operasional", items: ["Load in / load out", "Fixture troubleshooting", "Crew coordination"] },
-  { cat: "Venue Experience", items: ["Indoor arena", "Outdoor festival", "Hotel ballroom", "Theater & cultural venue"] },
+  { cat: "Venue Experience", items: ["Indoor arena (ICE BSD, JIS)", "Outdoor festival (GBK, JIEXPO)", "Hotel ballroom", "Theater & cultural venue"] },
 ];
 
 const events = [
@@ -30,33 +30,33 @@ const events = [
   { n: 7,  title: "MAROON 5",                         venue: "Jakarta International Stadium", date: "2025-02-01",                     cat: "Concert"     },
   { n: 8,  title: "SEVENTEEN — RIGHT HERE",                        venue: "Jakarta International Stadium", date: "2025-02-08", endDate: "2025-02-09", cat: "Concert"  },
   { n: 9,  title: "LINKIN PARK — FROM ZERO WORLD TOUR",                      venue: "Madya GBK",               date: "2025-02-16",                           cat: "Concert"     },
-  { n: 10, title: "BoyNextDoor — KNOCK ON",                      venue: "Istora Senayan",              date: "2025-04-12",                           cat: "Concert"     },
+  { n: 10, title: "BoyNextDoor — KNOCK ON",                      venue: "Istora GBK",              date: "2025-04-12",                           cat: "Concert"     },
   { n: 11, title: "Putri Indonesia",                  venue: "Balai Sarbini",           date: "2025-04-26",                           cat: "Production"  },
   { n: 12, title: "Putri Indonesia",                  venue: "JCC GBK",                 date: "2025-05-01",                           cat: "Production"  },
-  { n: 13, title: "Java Jazz Festival 2025",               venue: "JiExpo Kemayoran",                  date: "2025-05-30", endDate: "2025-06-01",    cat: "Festival"    },
+  { n: 13, title: "Java Jazz Festival 2025",               venue: "JIExpo",                  date: "2025-05-30", endDate: "2025-06-01",    cat: "Festival"    },
   { n: 14, title: "BABYMONSTER — HELLO MONSTER",                      venue: "ICE BSD Hall 5",          date: "2025-06-14",                           cat: "Concert"     },
   { n: 15, title: "Medco Synergy Day 2025",                      venue: "Indonesia Arena",         date: "2025-06-28",                           cat: "Corporate"   },
   { n: 16, title: "StandUp Fest",                    venue: "Istora Senayan",          date: "2025-07-11", endDate: "2025-07-13",    cat: "Production"  },
   { n: 17, title: "GIIAS 2025",                            venue: "ICE BSD",                 date: "2025-07-24", endDate: "2025-08-03",    cat: "Exhibition"  },
   { n: 18, title: "JKT48 — FULL HOUSE",                            venue: "Istora Senayan",          date: "2025-07-26",                           cat: "Concert"     },
   { n: 19, title: "D.O EXO Solo Concert — DO IT",             venue: "Indonesia Arena",         date: "2025-08-09",                           cat: "Concert"     },
-  { n: 20, title: "LaLaLa Festival 2025",                  venue: "JiExpo Kemayoran",             date: "2025-08-22", endDate: "2025-08-23",    cat: "Festival"    },
-  { n: 21, title: "Pestapora 2025",                   venue: "JiExpo Kemayoran",             date: "2025-09-05", endDate: "2025-09-07",    cat: "Festival"    },
-  { n: 22, title: "NCT DREAM — THE DREAM SHOW 4 : DREAM THE FUTURE",           venue: "Jakarta International Stadium",                     date: "2025-09-26", endDate: "2025-09-27",    cat: "Concert"     },
+  { n: 20, title: "LaLaLa Festival 2025",                  venue: "Gambir Expo",             date: "2025-08-22", endDate: "2025-08-23",    cat: "Festival"    },
+  { n: 21, title: "Pestapora 2025",                   venue: "Gambir Expo",             date: "2025-09-05", endDate: "2025-09-07",    cat: "Festival"    },
+  { n: 22, title: "NCT DREAM — THE DREAM SHOW 4 : DREAM THE FUTURE",           venue: "GBK",                     date: "2025-09-26", endDate: "2025-09-27",    cat: "Concert"     },
   { n: 23, title: "The Little Mermaid Junior",        venue: "Taman Ismail Marzuki",    date: "2025-10-05",                           cat: "Production"  },
-  { n: 24, title: "BLACKPINK — DEADLINE",                        venue: "GBK Main Stadium",             date: "2025-11-01", endDate: "2025-11-02",    cat: "Concert"     },
+  { n: 24, title: "BLACKPINK — DEADLINE",                        venue: "GBK Stadium",             date: "2025-11-01", endDate: "2025-11-02",    cat: "Concert"     },
   { n: 25, title: "MIKU EXPO 2025 ASIA",                     venue: "Tenis Indoor GBK",        date: "2025-11-12",                           cat: "Concert"     },
-  { n: 26, title: "Djakarta Warehouse Project 2025",  venue: "Garuda Wisnu Kencana - Bali",                date: "2025-12-12", endDate: "2025-12-14",    cat: "Festival"    },
+  { n: 26, title: "Djakarta Warehouse Project 2025",  venue: "GWK Bali",                date: "2025-12-12", endDate: "2025-12-14",    cat: "Festival"    },
   { n: 27, title: "Potato Head Beach Party",          venue: "Potato Head Bali",        date: "2025-12-31",                           cat: "Concert"     },
   { n: 28, title: "ATEEZ — IN YOUR FANTASY",                            venue: "ICE BSD",                 date: "2026-01-31",                           cat: "Concert"     },
-  { n: 29, title: "Taeyong — Remastered",             venue: "Tennis Indoor GBK",        date: "2026-02-07",                           cat: "Concert"     },
+  { n: 29, title: "Taeyong — Remastered",             venue: "Tenis Indoor GBK",        date: "2026-02-07",                           cat: "Concert"     },
   { n: 30, title: "Josh Groban Gems World Tour 2026", venue: "Ritz Carlton Jakarta",    date: "2026-02-15",                           cat: "Concert"     },
   { n: 31, title: "AESPA — SYNK",                    venue: "ICE BSD Hall 5",          date: "2026-04-04",                           cat: "Concert"     },
   { n: 32, title: "NCT WISH — INTO THE WISH: OUR WISH",                         venue: "ICE BSD Hall 5",          date: "2026-04-11",                           cat: "Concert"     },
   { n: 33, title: "CNBLUE — 3LOGY",                  venue: "ICE BSD Hall 1",          date: "2026-04-18",                           cat: "Concert"     },
   { n: 34, title: "ONE OK ROCK — DETOX",                      venue: "Indonesia Arena",         date: "2026-05-16",                           cat: "Concert"     },
-  { n: 35, title: "LAUFEY — A MATTER OF TIME TOUR",  venue: "NICE PIK 2 - Hall 1",              date: "2026-05-23",                           cat: "Concert"     },
-  { n: 36, title: "JAVA JAZZ 2026", venue: "NICE PIK 2", date: "2026-05-29-31", cat: " Festival" },
+  { n: 35, title: "LAUFEY — A MATTER OF TIME TOUR",  venue: "NICE PIK 2",              date: "2026-05-23",                           cat: "Concert"     },
+  { n: 36, title: "Java Jazz Festival 2026",         venue: "NICE PIK 2",              date: "2026-05-29", endDate: "2026-05-31",    cat: "Festival"    },
 ];
 
 const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
@@ -270,7 +270,7 @@ export default function Portfolio() {
         <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Event History</div></Fade>
         <Fade delay={0.1}>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 40px", letterSpacing: -1, lineHeight: 1.1 }}>
-            {TOTAL_EVENTS} event,<br /><span style={{ fontStyle: "italic", color: GOLD }}>One Journey.</span>
+            {TOTAL_EVENTS} event,<br /><span style={{ fontStyle: "italic", color: GOLD }}>satu perjalanan.</span>
           </h2>
         </Fade>
 
@@ -364,7 +364,15 @@ function SkillCard({ skill }) {
 function EventRow({ event, isMobile }) {
   const [hov, setHov] = useState(false);
   const d = new Date(event.date);
-  const fmt = d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
+  const fmt = event.endDate
+    ? (() => {
+        const end = new Date(event.endDate);
+        const sameMonth = d.getMonth() === end.getMonth() && d.getFullYear() === end.getFullYear();
+        const startStr = d.toLocaleDateString("id-ID", { day: "2-digit", ...(!sameMonth && { month: "short" }) });
+        const endStr = end.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
+        return `${startStr}–${endStr}`;
+      })()
+    : d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
   const color = CAT_COLOR[event.cat] || GOLD;
   return (
     <div
