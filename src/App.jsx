@@ -57,6 +57,7 @@ const events = [
   { n: 34, title: "ONE OK ROCK — DETOX",                      venue: "Indonesia Arena",         date: "2026-05-16",                           cat: "Concert"     },
   { n: 35, title: "LAUFEY — A MATTER OF TIME TOUR",  venue: "NICE PIK 2",              date: "2026-05-23",                           cat: "Concert"     },
   { n: 36, title: "Java Jazz Festival 2026",         venue: "NICE PIK 2",              date: "2026-05-29", endDate: "2026-05-31",    cat: "Festival"    },
+  { n: 37, title: "EXO PLANET #6 – EXhOrizon", venue: "Indonesia Arena", date: "2026-06-06", endDate: "2026-06-07", cat: "Concert"},
 ];
 
 const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
