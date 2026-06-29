@@ -45,11 +45,11 @@ const events = [
   { n: 22, title: "NCT DREAM — THE DREAM SHOW 4 : DREAM THE FUTURE",           venue: "GBK",                     date: "2025-09-26", endDate: "2025-09-27",    cat: "Concert"     },
   { n: 23, title: "The Little Mermaid Junior",        venue: "Taman Ismail Marzuki",    date: "2025-10-05",                           cat: "Production"  },
   { n: 24, title: "BLACKPINK — DEADLINE",                        venue: "GBK Stadium",             date: "2025-11-01", endDate: "2025-11-02",    cat: "Concert"     },
-  { n: 25, title: "MIKU EXPO 2025 ASIA",                     venue: "Tenis Indoor GBK",        date: "2025-11-12",                           cat: "Concert"     },
+  { n: 25, title: "MIKU EXPO 2025 ASIA",                     venue: "Tennis Indoor GBK",        date: "2025-11-12",                           cat: "Concert"     },
   { n: 26, title: "Djakarta Warehouse Project 2025",  venue: "GWK Bali",                date: "2025-12-12", endDate: "2025-12-14",    cat: "Festival"    },
   { n: 27, title: "Potato Head Beach Party",          venue: "Potato Head Bali",        date: "2025-12-31",                           cat: "Concert"     },
   { n: 28, title: "ATEEZ — IN YOUR FANTASY",                            venue: "ICE BSD",                 date: "2026-01-31",                           cat: "Concert"     },
-  { n: 29, title: "Taeyong — Remastered",             venue: "Tenis Indoor GBK",        date: "2026-02-07",                           cat: "Concert"     },
+  { n: 29, title: "Taeyong — Remastered",             venue: "Tennis Indoor GBK",        date: "2026-02-07",                           cat: "Concert"     },
   { n: 30, title: "Josh Groban Gems World Tour 2026", venue: "Ritz Carlton Jakarta",    date: "2026-02-15",                           cat: "Concert"     },
   { n: 31, title: "AESPA — SYNK",                    venue: "ICE BSD Hall 5",          date: "2026-04-04",                           cat: "Concert"     },
   { n: 32, title: "NCT WISH — INTO THE WISH: OUR WISH",                         venue: "ICE BSD Hall 5",          date: "2026-04-11",                           cat: "Concert"     },
@@ -58,6 +58,7 @@ const events = [
   { n: 35, title: "LAUFEY — A MATTER OF TIME TOUR",  venue: "NICE PIK 2",              date: "2026-05-23",                           cat: "Concert"     },
   { n: 36, title: "Java Jazz Festival 2026",         venue: "NICE PIK 2",              date: "2026-05-29", endDate: "2026-05-31",    cat: "Festival"    },
   { n: 37, title: "EXO PLANET #6 – EXhOrizon", venue: "Indonesia Arena", date: "2026-06-06", endDate: "2026-06-07", cat: "Concert"},
+  { n: 38, title: "2026 NCT JNJM FANMEETING TOUR DUALITY", venue: "Tennis Indoor GBK", date: "2026-07-04", endDate: "2026-07-05", cat: "Concert"},
 ];
 
 const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
