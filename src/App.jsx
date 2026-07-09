@@ -59,6 +59,7 @@ const events = [
   { n: 36, title: "Java Jazz Festival 2026",         venue: "NICE PIK 2",              date: "2026-05-29", endDate: "2026-05-31",    cat: "Festival"    },
   { n: 37, title: "EXO PLANET #6 – EXhOrizon", venue: "Indonesia Arena", date: "2026-06-06", endDate: "2026-06-07", cat: "Concert"},
   { n: 38, title: "2026 NCT JNJM FANMEETING TOUR DUALITY", venue: "Tennis Indoor GBK", date: "2026-07-04", endDate: "2026-07-05", cat: "Concert"},
+  { n: 39, title: "MITSKI Present - Nothing's About To Happen To Me", venue: "Tennis Indoor GBK", date: "2026-07-18", cat: "Concert"},
 ];
 
 const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
