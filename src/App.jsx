@@ -261,8 +261,8 @@ export default function Portfolio() {
         </div>
         <Fade delay={0.4}>
           <div style={{ marginTop: 40, padding: "20px 24px", border: `1px solid #222`, borderLeft: `3px solid ${GOLD}`, maxWidth: 480 }}>
-            <div style={{ fontSize: 9, color: GOLD, letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>Next Step</div>
-            <div style={{ color: "#777", fontSize: "0.85rem", lineHeight: 1.8 }}>Console programming (grandMA / lighting desk) — currently being learned.</div>
+            <div style={{ fontSize: 9, color: GOLD, letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}></div>
+            <div style={{ color: "#777", fontSize: "0.85rem", lineHeight: 1.8 }}></div>
           </div>
         </Fade>
       </section>
@@ -272,7 +272,7 @@ export default function Portfolio() {
         <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Event History</div></Fade>
         <Fade delay={0.1}>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 40px", letterSpacing: -1, lineHeight: 1.1 }}>
-            {TOTAL_EVENTS} event,<br /><span style={{ fontStyle: "italic", color: GOLD }}>satu perjalanan.</span>
+            {TOTAL_EVENTS} event.<br /><span style={{ fontStyle: "italic", color: GOLD }}></span>
           </h2>
         </Fade>
 
