@@ -7,11 +7,10 @@ const TEXT = "#F0EDE8";
 const MUTED = "#666";
 const DIMMED = "#2A2A2A";
 
-const bio = `Xsa is a lighting crew based in Indonesia with experience across concerts, festivals, corporate events, exhibitions, and large-scale productions. Over the years, Xsa has contributed to a wide range of national and international events at major venues such as Istora Senayan, ICE BSD, JIExpo, Indonesia Arena, JIS, and GBK.
-
-From K-Pop concerts and music festivals to corporate summits and stage productions, every project represents a combination of technical execution, teamwork, and creative lighting experience. Working behind various live productions has shaped a strong understanding of stage atmosphere, show flow, and production environments under high-pressure situations.
-
-Selected productions include performances and events featuring WayV, SEVENTEEN, aespa, BLACKPINK, Linkin Park, Maroon 5, BABYMONSTER, NCT DREAM, ATEEZ, One Ok Rock, Java Jazz Festival, Djakarta Warehouse Project, Joyland Festival, Pestapora, GIIAS, and more.`;
+const bio = `Supporting live productions through precision, teamwork, and technical excellence.
+I'm Anugrah Arif Eka Saputra (Xsa), a Lighting Crew based in Indonesia with hands-on experience supporting concerts, festivals, corporate events, exhibitions, and large-scale live productions.
+My work focuses on fixture installation, DMX addressing, cable management, equipment preparation, and on-site troubleshooting, ensuring lighting systems are installed safely, accurately, and ready for every show.
+I enjoy working in fast-paced production environments where precision, teamwork, and problem-solving are essential. Every project has strengthened my technical expertise while reinforcing the importance of communication, reliability, and continuous learning within live event production.`;
 
 const skills = [
   { cat: "Rigging & Setup", items: ["Fixture rigging & hanging", "Venue layout & positioning", "Fixture focus & angle"] },
