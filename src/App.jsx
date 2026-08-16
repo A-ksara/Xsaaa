@@ -59,9 +59,9 @@ const events = [
   { n: 38, title: "2026 NCT JNJM FANMEETING TOUR DUALITY", venue: "Tennis Indoor GBK", date: "2026-07-04", endDate: "2026-07-05", cat: "Concert"},
   { n: 39, title: "MITSKI Present - Nothing's About To Happen To Me", venue: "Tennis Indoor GBK", date: "2026-07-18", cat: "Concert"},
   { n: 40, title: "Bernadya Album Showcase - Sampai Hanya Di Mimpi", venue: "Tennis Indoor GBK", date: "2026-07-25", cat: "Concert"},
-  { n: 41, title: "8th ASIAN TAEKWONDO Indonesia Open Championships", venue: "Tennis Indoor GBK", date: "2026-08-1", endDate: " 2026-08-05", cat: "Goverment"},
+  { n: 41, title: "8th ASIAN TAEKWONDO Indonesia Open Championships", venue: "Tennis Indoor GBK", date: "2026-08-1", endDate: " 2026-08-05", cat: "Government"},
   { n: 42, title: "PROJECT POP 30 TAHUN", venue: "Tennis Indoor GBK", date: "2026-08-8", cat: "Concert"},
-  { n: 43, title: "PAGELARAN SABANG MERAUKE 2026", venue: "Indonesia Arena GBK", date: "2026-08-23", endDate: " 2026-08-24", cat: "Goverment"},
+  { n: 43, title: "PAGELARAN SABANG MERAUKE 2026", venue: "Indonesia Arena GBK", date: "2026-08-23", endDate: " 2026-08-24", cat: "Government"},
   
 ];
 
