@@ -62,6 +62,9 @@ const events = [
   { n: 41, title: "8th ASIAN TAEKWONDO Indonesia Open Championships", venue: "Tennis Indoor GBK", date: "2026-08-1", endDate: " 2026-08-05", cat: "Government"},
   { n: 42, title: "PROJECT POP 30 TAHUN", venue: "Tennis Indoor GBK", date: "2026-08-8", cat: "Concert"},
   { n: 43, title: "PAGELARAN SABANG MERAUKE 2026", venue: "Indonesia Arena GBK", date: "2026-08-23", endDate: " 2026-08-24", cat: "Government"},
+  { n: 44, title: "THE WEEKND", venue: "Jakarta International Stadion", date: "2026-09-26", endDate: " 2026-09-27", cat: "Concert"},
+  { n: 45, title: "Danamon", venue: "Tennis Indoor GBK", date: "2026-10-07", cat: "Corporation"},
+  { n: 46, title: "Kanye West", venue: "Gelora Bung Karno Main Stadion", date: "2026-10-24", cat: "Concert"},
   
 ];
 
