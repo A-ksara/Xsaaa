@@ -65,6 +65,9 @@ const events = [
   { n: 44, title: "THE WEEKND", venue: "Jakarta International Stadion", date: "2026-09-26", endDate: " 2026-09-27", cat: "Concert"},
   { n: 45, title: "Danamon", venue: "Tennis Indoor GBK", date: "2026-10-07", cat: "Corporation"},
   { n: 46, title: "Kanye West", venue: "Gelora Bung Karno Main Stadion", date: "2026-10-24", cat: "Concert"},
+  { n: 47, title: "Andrea Bocceli", venue: "BOROBUDUR Temple", date: "2026-10-31", cat: "Concert"},
+  { n: 48, title: "King Nassar - Lost In The Jungle", venue: "Istora", date: "2026-11-7", cat: "Concert"},
+  
   
 ];
 
