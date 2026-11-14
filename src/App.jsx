@@ -1,23 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const GOLD = "#E8A030";
-const BG = "#0C0C0C";
-const BG2 = "#111111";
-const TEXT = "#F0EDE8";
-const MUTED = "#666";
-const DIMMED = "#2A2A2A";
-
+const ACCENTS = { aqua:"#78E6DF", ice:"#B5F4F0", deep:"#49C8C0" };
+const BG="#061014", PANEL="#0B1A1E", TEXT="#E8F5F3", MUTED="#8AA5A6";
 const bio = `Supporting live productions through precision, teamwork, and technical excellence.
 I'm Anugrah Arif Eka Saputra (Xsa), a Lighting Crew based in Indonesia with hands-on experience supporting concerts, festivals, corporate events, exhibitions, and large-scale live productions.
 My work focuses on fixture installation, DMX addressing, cable management, equipment preparation, and on-site troubleshooting, ensuring lighting systems are installed safely, accurately, and ready for every show.
 I enjoy working in fast-paced production environments where precision, teamwork, and problem-solving are essential. Every project has strengthened my technical expertise while reinforcing the importance of communication, reliability, and continuous learning within live event production.`;
-
 const skills = [
   { cat: "Rigging & Setup", items: ["Fixture rigging & hanging", "Venue layout & positioning", "Fixture focus & angle"] },
   { cat: "Cable & Patching", items: ["Cable management & routing", "DMX addressing & fixture configuration", "DMX Linking", "Power distribution setup", "Cable labeling & wrap"] },
   { cat: "Operasional", items: ["Load in / load out", "Fixture Testing & System Check", "Fixture troubleshooting", "On-site teamwork & communication"] },
 ];
-
 const events = [
   { n: 1,  title: "WayV Concert — On The Way",       venue: "Istora Senayan",          date: "2024-10-05",                           cat: "Concert"     },
   { n: 2,  title: "JUNI DAY X",                       venue: "Basket Hall GBK",         date: "2024-11-01",                           cat: "Concert"     },
@@ -70,357 +63,45 @@ const events = [
   
   
 ];
+const categories=["All",...new Set(events.map(e=>e.cat))];
+const years=[...new Set(events.map(e=>e.date.slice(0,4)))].sort((a,b)=>b.localeCompare(a));
 
-const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
-const CAT_COLOR = {
-  Concert:    "#E8A030",
-  Festival:   "#60A5FA",
-  Corporate:  "#A78BFA",
-  Production: "#34D399",
-  Exhibition: "#F472B6",
-};
-
-const TOTAL_EVENTS = events.length;
-
-const START_DATE = new Date("2024-10-01");
-const getMonthsActive = () => {
-  const now = new Date();
-  const years = now.getFullYear() - START_DATE.getFullYear();
-  const months = now.getMonth() - START_DATE.getMonth();
-  return years * 12 + months;
-};
-
-function useInView(threshold = 0.1) {
-  const ref = useRef(null);
-  const [vis, setVis] = useState(false);
-  useEffect(() => {
-    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold });
-    if (ref.current) o.observe(ref.current);
-    return () => o.disconnect();
-  }, []);
-  return [ref, vis];
+function useReveal(){
+ const ref=useRef(null); const [shown,setShown]=useState(false);
+ useEffect(()=>{const node=ref.current;if(!node)return;const ob=new IntersectionObserver(([e])=>{if(e.isIntersecting){setShown(true);ob.disconnect()}},{threshold:.12});ob.observe(node);return()=>ob.disconnect()},[]);
+ return [ref,shown];
 }
-
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-  return isMobile;
-}
-
-function Fade({ children, delay = 0 }) {
-  const [ref, vis] = useInView();
-  return (
-    <div ref={ref} style={{
-      opacity: vis ? 1 : 0,
-      transform: vis ? "translateY(0)" : "translateY(20px)",
-      transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
-    }}>
-      {children}
-    </div>
-  );
-}
-
-export default function Portfolio() {
-  const [filter, setFilter] = useState("All");
-  const [activeSec, setActiveSec] = useState(0);
-  const [monthsActive] = useState(() => getMonthsActive());
-  const secRefs = useRef([]);
-  const isMobile = useIsMobile();
-
-  const filtered = filter === "All" ? events : events.filter(e => e.cat === filter);
-  const byYear = filtered.reduce((acc, e) => {
-    const y = e.date.slice(0, 4);
-    if (!acc[y]) acc[y] = [];
-    acc[y].push(e);
-    return acc;
-  }, {});
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          const i = secRefs.current.indexOf(e.target);
-          if (i !== -1) setActiveSec(i);
-        }
-      });
-    }, { threshold: 0.3 });
-    secRefs.current.forEach(r => r && obs.observe(r));
-    return () => obs.disconnect();
-  }, []);
-
-  const setRef = i => el => { secRefs.current[i] = el; };
-  const scrollTo = i => secRefs.current[i]?.scrollIntoView({ behavior: "smooth" });
-
-  return (
-    <div style={{ background: BG, color: TEXT, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", overflowX: "hidden" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
-
-      {!isMobile && (
-        <div style={{ position: "fixed", right: 22, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 10, zIndex: 100 }}>
-          {[0,1,2,3].map(i => (
-            <div key={i} onClick={() => scrollTo(i)} style={{ cursor: "pointer" }}>
-              <div style={{
-                width: 5, height: activeSec === i ? 22 : 5,
-                borderRadius: 3, background: activeSec === i ? GOLD : "#333",
-                transition: "all 0.3s",
-              }} />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* ── HERO ── */}
-      <section ref={setRef(0)} style={{
-        minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center",
-        padding: isMobile ? "0 6vw" : "0 8vw",
-        position: "relative", overflow: "hidden"
-      }}>
-        <div style={{ position: "absolute", top: "20%", left: "35%", width: 500, height: 500, background: `radial-gradient(circle, ${GOLD}15 0%, transparent 65%)`, pointerEvents: "none" }} />
-        <div style={{ position: "relative" }}>
-          <div style={{ fontSize: 10, letterSpacing: 5, color: GOLD, textTransform: "uppercase", marginBottom: 28, animation: "fu 0.8s ease both" }}>
-            Lighting Crew · Since Oct 2024
-          </div>
-          <h1 style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(5rem, 15vw, 12rem)",
-            fontWeight: 300, lineHeight: 0.88, margin: "0 0 20px",
-            letterSpacing: -4, animation: "fu 0.8s ease 0.1s both",
-          }}>Xsaaa</h1>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1rem, 2.2vw, 1.6rem)", fontStyle: "italic", color: MUTED, animation: "fu 0.8s ease 0.2s both" }}>
-            Shaping the stage, one light at a time.
-          </div>
-          <div style={{ width: 40, height: 1, background: GOLD, margin: "36px 0", animation: "fu 0.8s ease 0.3s both" }} />
-
-          <div style={{ display: "flex", gap: isMobile ? 28 : 48, animation: "fu 0.8s ease 0.4s both", flexWrap: "wrap" }}>
-            {[
-              [String(TOTAL_EVENTS), "Events"],
-              [`${monthsActive}+`, "Months"],
-              ["10+", "Venues"]
-            ].map(([n, l]) => (
-              <div key={l}>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: isMobile ? "2.4rem" : "3rem", fontWeight: 300, color: GOLD, lineHeight: 1 }}>{n}</div>
-                <div style={{ fontSize: 10, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>{l}</div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ display: "flex", gap: 12, marginTop: 48, animation: "fu 0.8s ease 0.5s both", flexWrap: "wrap" }}>
-            {[["Events →", 3], ["Skills →", 2]].map(([label, target], i) => (
-              <button key={label} onClick={() => scrollTo(target)} style={{
-                background: i === 0 ? GOLD : "transparent", color: i === 0 ? "#000" : TEXT,
-                border: `1px solid ${i === 0 ? GOLD : "#333"}`, padding: "11px 26px",
-                fontSize: "0.78rem", letterSpacing: 2, textTransform: "uppercase",
-                cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s",
-              }}
-                onMouseEnter={e => { e.target.style.background = GOLD; e.target.style.color = "#000"; e.target.style.borderColor = GOLD; }}
-                onMouseLeave={e => { e.target.style.background = i===0?GOLD:"transparent"; e.target.style.color = i===0?"#000":TEXT; e.target.style.borderColor = i===0?GOLD:"#333"; }}
-              >{label}</button>
-            ))}
-          </div>
-        </div>
-        <div style={{ position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)", textAlign: "center", animation: "fu 1s ease 1.2s both" }}>
-          <div style={{ fontSize: 9, letterSpacing: 4, color: MUTED, textTransform: "uppercase", marginBottom: 8 }}>Scroll</div>
-          <div style={{ width: 1, height: 36, background: `linear-gradient(${GOLD}, transparent)`, margin: "0 auto", animation: "pulse 1.6s ease infinite" }} />
-        </div>
-      </section>
-
-      {/* ── ABOUT ── */}
-      <section ref={setRef(1)} style={{ minHeight: "65vh", display: "flex", alignItems: "center", padding: isMobile ? "80px 6vw" : "100px 8vw", background: BG2 }}>
-        <div style={{ maxWidth: 760, width: "100%" }}>
-          <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>About</div></Fade>
-          <Fade delay={0.1}>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 32px", letterSpacing: -1, lineHeight: 1.1 }}>
-              Creating immersive environments<br /><span style={{ fontStyle: "italic", color: GOLD }}>through lighting.</span>
-            </h2>
-          </Fade>
-          <Fade delay={0.2}>
-            <p style={{ lineHeight: 2, color: "#999", fontSize: "0.93rem", fontWeight: 300, maxWidth: 520, margin: "0 0 48px" }}>{bio}</p>
-          </Fade>
-          <Fade delay={0.3}>
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-              gap: 2,
-            }}>
-              {[["K-Pop","Concert"],["International","Artist"],["Festival","Outdoor"],["Corporate","& Event"]].map(([a,b]) => (
-                <div key={a} style={{ background: "#1A1A1A", padding: "20px 16px", borderTop: `2px solid #222` }}>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", color: GOLD }}>{a}</div>
-                  <div style={{ fontSize: "0.72rem", color: MUTED, letterSpacing: 1, marginTop: 4 }}>{b}</div>
-                </div>
-              ))}
-            </div>
-          </Fade>
-        </div>
-      </section>
-
-      {/* ── SKILLS ── */}
-      <section ref={setRef(2)} style={{ minHeight: "65vh", padding: isMobile ? "80px 6vw" : "100px 8vw", background: BG }}>
-        <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Skills</div></Fade>
-        <Fade delay={0.1}>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 56px", letterSpacing: -1, lineHeight: 1.1 }}>
-            What i&apos;m doing <br /><span style={{ fontStyle: "italic", color: GOLD }}>at field.</span>
-          </h2>
-        </Fade>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 2 }}>
-          {skills.map((s, i) => <Fade key={s.cat} delay={i*0.07}><SkillCard skill={s} /></Fade>)}
-        </div>
-        <Fade delay={0.4}>
-          <div style={{ marginTop: 40, padding: "20px 24px", border: `1px solid #222`, borderLeft: `3px solid ${GOLD}`, maxWidth: 480 }}>
-            <div style={{ fontSize: 9, color: GOLD, letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}></div>
-            <div style={{ color: "#777", fontSize: "0.85rem", lineHeight: 1.8 }}></div>
-          </div>
-        </Fade>
-      </section>
-
-      {/* ── EVENTS ── */}
-      <section ref={setRef(3)} style={{ minHeight: "80vh", padding: isMobile ? "80px 6vw" : "100px 8vw", background: BG2 }}>
-        <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Event History</div></Fade>
-        <Fade delay={0.1}>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 40px", letterSpacing: -1, lineHeight: 1.1 }}>
-            {TOTAL_EVENTS} event.<br /><span style={{ fontStyle: "italic", color: GOLD }}></span>
-          </h2>
-        </Fade>
-
-        {/* Filter */}
-        <Fade delay={0.2}>
-          <div style={{ display: "flex", gap: 8, marginBottom: 48, flexWrap: "wrap" }}>
-            {CATS.map(c => {
-              const count = c === "All" ? events.length : events.filter(e => e.cat === c).length;
-              const active = filter === c;
-              const color = CAT_COLOR[c] || GOLD;
-              return (
-                <button key={c} onClick={() => setFilter(c)} style={{
-                  background: active ? (c === "All" ? GOLD : color) : "transparent",
-                  color: active ? "#000" : MUTED,
-                  border: `1px solid ${active ? (c === "All" ? GOLD : color) : "#2A2A2A"}`,
-                  padding: "8px 14px", fontSize: "0.73rem", letterSpacing: 2,
-                  textTransform: "uppercase", cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
-                  transition: "all 0.2s",
-                }}>
-                  {c} ({count})
-                </button>
-              );
-            })}
-          </div>
-        </Fade>
-
-        {/* By year */}
-        {Object.keys(byYear).sort().reverse().map((year, yi) => (
-          <div key={year} style={{ marginBottom: 52 }}>
-            <Fade delay={yi * 0.05}>
-              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.9rem", color: GOLD, letterSpacing: 3 }}>{year}</div>
-                <div style={{ flex: 1, height: 1, background: DIMMED }} />
-                <div style={{ fontSize: 10, color: MUTED, letterSpacing: 2 }}>{byYear[year].length} events</div>
-              </div>
-            </Fade>
-            <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              {byYear[year].map((e, i) => (
-                <Fade key={e.n} delay={i * 0.025}>
-                  <EventRow event={e} isMobile={isMobile} />
-                </Fade>
-              ))}
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{ padding: isMobile ? "40px 6vw" : "56px 8vw", background: "#080808", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-        <div>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontWeight: 300, letterSpacing: -1 }}>Xsaaa</div>
-          <div style={{ fontSize: 9, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>Lighting Crew</div>
-        </div>
-        <div style={{ fontSize: "0.73rem", color: MUTED, letterSpacing: 1 }}>Since Oct 2024 · Jakarta</div>
-      </footer>
-
-      <style>{`
-        @keyframes fu { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
-        * { box-sizing:border-box; }
-        body { margin:0; overflow-x:hidden; }
-        ::-webkit-scrollbar { width:3px; }
-        ::-webkit-scrollbar-thumb { background:#2A2A2A; border-radius:2px; }
-      `}</style>
-    </div>
-  );
-}
-
-function SkillCard({ skill }) {
-  const [hov, setHov] = useState(false);
-  return (
-    <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{
-      background: hov ? "#181818" : "#141414",
-      padding: "30px 26px",
-      borderTop: `2px solid ${hov ? GOLD : "#222"}`,
-      transition: "all 0.3s",
-    }}>
-      <div style={{ fontSize: 10, letterSpacing: 3, color: hov ? GOLD : MUTED, textTransform: "uppercase", marginBottom: 18, transition: "color 0.3s" }}>{skill.cat}</div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {skill.items.map(item => (
-          <div key={item} style={{ fontSize: "0.83rem", color: "#BBB", display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 4, height: 4, borderRadius: "50%", background: GOLD, flexShrink: 0 }} />
-            {item}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function EventRow({ event, isMobile }) {
-  const [hov, setHov] = useState(false);
-  const d = new Date(event.date);
-  const fmt = event.endDate
-    ? (() => {
-        const end = new Date(event.endDate);
-        const sameMonth = d.getMonth() === end.getMonth() && d.getFullYear() === end.getFullYear();
-        const startStr = d.toLocaleDateString("id-ID", { day: "2-digit", ...(!sameMonth && { month: "short" }) });
-        const endStr = end.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
-        return `${startStr}–${endStr}`;
-      })()
-    : d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
-  const color = CAT_COLOR[event.cat] || GOLD;
-  return (
-    <div
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        display: "grid",
-        gridTemplateColumns: isMobile ? "28px 1fr auto" : "38px 1fr auto auto",
-        gap: isMobile ? "0 10px" : "0 18px",
-        alignItems: "center",
-        padding: isMobile ? "12px 10px" : "14px 18px",
-        background: hov ? "#181818" : "transparent",
-        borderLeft: `2px solid ${hov ? color : "transparent"}`,
-        transition: "all 0.2s",
-      }}
-    >
-      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: hov ? color : "#333", transition: "color 0.2s" }}>
-        {String(event.n).padStart(2, "0")}
-      </div>
-      <div style={{ minWidth: 0 }}>
-        <div style={{ fontSize: isMobile ? "0.8rem" : "0.86rem", color: hov ? TEXT : "#AAA", fontWeight: 400, transition: "color 0.2s", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-          {event.title}
-        </div>
-        <div style={{ fontSize: "0.7rem", color: MUTED, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-          {event.venue}
-        </div>
-      </div>
-      <span style={{
-        fontSize: 9, letterSpacing: 1.5, color, border: `1px solid ${color}35`,
-        padding: "3px 8px", textTransform: "uppercase", whiteSpace: "nowrap",
-      }}>
-        {event.cat}
-      </span>
-      {!isMobile && (
-        <div style={{ fontSize: "0.73rem", color: MUTED, whiteSpace: "nowrap", textAlign: "right" }}>{fmt}</div>
-      )}
-    </div>
-  );
+function Reveal({children,delay=0}){const [ref,shown]=useReveal();return <div ref={ref} className={`reveal ${shown?"shown":""}`} style={{transitionDelay:delay+"ms"}}>{children}</div>}
+function SectionTitle({eyebrow,title,accent}){return <Reveal><div className="eyebrow">{eyebrow}</div><h2 className="section-title">{title} <i>{accent}</i></h2></Reveal>}
+function EventModal({event,onClose}){useEffect(()=>{const fn=e=>e.key==="Escape"&&onClose();window.addEventListener("keydown",fn);document.body.style.overflow="hidden";return()=>{window.removeEventListener("keydown",fn);document.body.style.overflow=""}},[onClose]);return <div className="modal-backdrop" onMouseDown={e=>e.target===e.currentTarget&&onClose()}><article className="event-modal"><button className="modal-close" onClick={onClose}>×</button><div className="eyebrow">PROJECT / {String(event.n).padStart(2,"0")}</div><div className="modal-index">{String(event.n).padStart(2,"0")}</div><h3>{event.title}</h3><p>{event.venue}</p><div className="modal-meta"><span>{event.cat}</span><span>{new Date(event.date).toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"})}</span></div><div className="modal-note">Lighting production · On-site crew experience</div></article></div>}
+export default function Portfolio(){
+ const [accent,setAccent]=useState("aqua"),[filter,setFilter]=useState("All"),[year,setYear]=useState("All"),[search,setSearch]=useState(""),[selected,setSelected]=useState(null),[openSkill,setOpenSkill]=useState(0),[menu,setMenu]=useState(false),[pointer,setPointer]=useState({x:-100,y:-100}),[scroll,setScroll]=useState(0);
+ const hero=useRef(null),[tilt,setTilt]=useState({x:0,y:0});
+ const color=ACCENTS[accent];
+ useEffect(()=>{const onScroll=()=>{const max=document.documentElement.scrollHeight-innerHeight;setScroll(max>0?scrollY/max*100:0)};const onMove=e=>setPointer({x:e.clientX,y:e.clientY});window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("mousemove",onMove);return()=>{window.removeEventListener("scroll",onScroll);window.removeEventListener("mousemove",onMove)}},[]);
+ const shown=useMemo(()=>events.filter(e=>(filter==="All"||e.cat===filter)&&(year==="All"||e.date.slice(0,4)===year)&&(`${e.title} ${e.venue} ${e.cat}`.toLowerCase().includes(search.toLowerCase()))).sort((a,b)=>{const key=s=>Number(s.date.split("-")[0])*10000+Number(s.date.split("-")[1])*100+Number(s.date.split("-")[2]);return key(b)-key(a)}),[filter,year,search]);
+ const nav=[["About","about"],["Capabilities","skills"],["Experience","events"]];
+ const jump=id=>{document.getElementById(id)?.scrollIntoView({behavior:"smooth"});setMenu(false)};
+ const moveHero=e=>{const r=hero.current?.getBoundingClientRect();if(r)setTilt({x:((e.clientX-r.left)/r.width-.5)*9,y:((e.clientY-r.top)/r.height-.5)*-9})};
+ return <main style={{"--accent":color,"--bg":BG,"--panel":PANEL}}>
+  <div className="scroll-progress" style={{width:scroll+"%"}}/>
+  <div className="cursor-glow" style={{left:pointer.x,top:pointer.y}}/>
+  <header className="topbar"><a className="brand" href="#top" onClick={e=>{e.preventDefault();jump("top")}}>X<span>SA</span><small> / PORTFOLIO</small></a><nav className={menu?"nav-open":""}>{nav.map(([label,id])=><button key={id} onClick={()=>jump(id)}>{label}</button>)}</nav><div className="top-actions"><span className="live-dot"/> AVAILABLE FOR PRODUCTION <button className="menu-toggle" onClick={()=>setMenu(!menu)}>{menu?"×":"☰"}</button></div></header>
+  <section id="top" ref={hero} className="hero" onMouseMove={moveHero} onMouseLeave={()=>setTilt({x:0,y:0})}>
+   <div className="hero-grid"/><div className="hero-glow"/><div className="beam beam-a"/><div className="beam beam-b"/>
+   <div className="hero-copy"><div className="eyebrow"><span className="live-dot"/> LIGHTING CREW · INDONESIA · EST. 2024</div><h1>Creating<br/><em>the</em> atmosphere<span className="period">.</span></h1><p className="hero-sub">Behind every unforgettable show is a crew that makes the light happen.</p><div className="hero-ctas"><button className="primary-btn" onClick={()=>jump("events")}>Explore my work <span>↗</span></button><button className="text-btn" onClick={()=>jump("about")}>Discover my story ↓</button></div><div className="hero-stats"><div><b>{events.length.toString().padStart(2,"0")}</b><small>PROJECTS LOGGED</small></div><div><b>2024<span>—</span>26</b><small>FIELD EXPERIENCE</small></div><div><b>01</b><small>PRODUCTION MINDSET</small></div></div></div>
+   <div className="portrait-wrap" style={{transform:`perspective(1000px) rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`}}><div className="portrait-orbit orbit-one"/><div className="portrait-orbit orbit-two"/><div className="portrait-card"><img src="/xsa-portrait.svg" alt="Xsa mirror selfie"/><div className="portrait-overlay"><span>FIELD NOTES / 001</span><b>ANUGRAH ARIF<br/>EKA SAPUTRA</b></div></div><div className="portrait-tag">SCROLL TO EXPLORE <span>↓</span></div></div>
+   <div className="hero-bottom"><span>01 — 04</span><span>SCROLL TO DISCOVER</span><span>JAKARTA, ID</span></div>
+  </section>
+  <section id="about" className="about section-pad"><div className="about-side"><div className="eyebrow">01 / THE PERSON</div><div className="vertical-note">PRECISION · TEAMWORK · EXECUTION</div></div><div className="about-main"><SectionTitle eyebrow="A LITTLE ABOUT ME" title="Not just the lights." accent="The work behind them."/><p className="about-lead">I'm Xsa — a lighting crew member building experience in live event production, one show at a time.</p><p className="body-copy">{bio.replaceAll("\n"," ")}</p><div className="about-chips"><span>LIVE PRODUCTION</span><span>TECHNICAL SETUP</span><span>CREW COLLABORATION</span></div></div></section>
+  <section id="skills" className="skills section-pad"><div className="section-head"><SectionTitle eyebrow="02 / WHAT I BRING" title="Built on" accent="the ground."/><p className="body-copy">Tap each capability to explore the work and practical skills behind the role.</p></div><div className="skill-layout"><div className="skill-index">{skills.map((s,i)=><button key={s.cat} className={openSkill===i?"active":""} onClick={()=>setOpenSkill(i)}><span>0{i+1}</span>{s.cat}<b>{openSkill===i?"−":"+"}</b></button>)}</div><div className="skill-detail"><div className="skill-detail-top"><span>CAPABILITY / 0{openSkill+1}</span><span>FIELD SKILLS</span></div><h3>{skills[openSkill].cat}</h3><div className="skill-list">{skills[openSkill].items.map((it,i)=><div key={it} style={{transitionDelay:i*70+"ms"}}><span>↗</span>{it}</div>)}</div><div className="skill-foot">LEARNED THROUGH HANDS-ON PRODUCTION EXPERIENCE</div></div></div></section>
+  <section id="events" className="events section-pad"><div className="events-heading"><SectionTitle eyebrow="03 / SELECTED EXPERIENCE" title="Every show," accent="a new story."/><div className="event-total"><b>{shown.length.toString().padStart(2,"0")}</b><span>VISIBLE<br/>PROJECTS</span></div></div><div className="event-controls"><div className="filter-pills">{categories.map(c=><button key={c} className={filter===c?"selected":""} onClick={()=>setFilter(c)}>{c}<sup>{c==="All"?events.length:events.filter(e=>e.cat===c).length}</sup></button>)}</div><div className="search-wrap"><span>⌕</span><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search show or venue..."/></div></div><div className="year-controls"><span>FILTER BY YEAR</span><div>{["All",...years].map(y=><button key={y} className={year===y?"active":""} onClick={()=>setYear(y)}>{y}</button>)}</div></div><div className="event-grid">{shown.map((e,i)=><button className="event-card" key={e.n} onClick={()=>setSelected(e)} style={{animationDelay:i%12*35+"ms"}}><div className="event-card-top"><span>PROJECT / {String(e.n).padStart(2,"0")}</span><span>↗</span></div><div className="event-card-year">{e.date.slice(0,4)}</div><h3>{e.title}</h3><div className="event-card-bottom"><span>{e.venue}</span><i>{e.cat}</i></div><div className="card-sweep"/></button>)}</div>{shown.length===0&&<div className="empty-state">No projects match that search. Try another keyword.</div>}<div className="events-footnote">A RUNNING LOG OF LIVE SHOWS, FESTIVALS & PRODUCTION WORK.</div></section>
+  <section className="closing"><div className="closing-glow"/><div className="eyebrow">THE NEXT SHOW IS ALWAYS A NEW CHALLENGE</div><h2>See you<br/><i>behind the lights.</i></h2><button className="primary-btn" onClick={()=>jump("top")}>Back to top ↑</button><div className="closing-line"/></section>
+  <footer><span>© 2026 XSA / LIGHTING CREW</span><span>BUILT WITH CURIOSITY & PRECISION</span><button onClick={()=>setAccent(a=>a==="aqua"?"ice":a==="ice"?"deep":"aqua")}>LIGHT MODE: {accent.toUpperCase()} ◉</button></footer>
+  {selected&&<EventModal event={selected} onClose={()=>setSelected(null)}/>}
+  <style>{`
+   @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+   *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:80px}body{margin:0;background:${BG};color:${TEXT};font-family:Manrope,sans-serif}button,input{font:inherit}button{color:inherit}.scroll-progress{position:fixed;z-index:1000;top:0;left:0;height:2px;background:var(--accent);box-shadow:0 0 12px var(--accent)}.cursor-glow{position:fixed;z-index:0;width:320px;height:320px;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle, color-mix(in srgb,var(--accent) 10%,transparent),transparent 68%);mix-blend-mode:screen}.topbar{height:76px;padding:0 6vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #193035;background:#061014eF;backdrop-filter:blur(18px);position:sticky;top:0;z-index:50}.brand{font:600 18px 'Space Grotesk';letter-spacing:3px;color:#efffff;text-decoration:none}.brand span{color:var(--accent)}.brand small{font:9px 'DM Mono';color:#789092;letter-spacing:1px}.topbar nav{display:flex;gap:36px}.topbar nav button,.top-actions,.top-actions button{background:none;border:0;color:#9ab0b0;font:10px 'DM Mono';letter-spacing:1.5px;cursor:pointer}.topbar nav button:hover{color:var(--accent)}.top-actions{display:flex;align-items:center;gap:10px;font-size:9px}.live-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;box-shadow:0 0 12px var(--accent);animation:blink 2s infinite}.menu-toggle{display:none!important}.hero{min-height:calc(100vh - 76px);padding:9vh 9vw 7vh;position:relative;overflow:hidden;display:flex;align-items:center;isolation:isolate;background:radial-gradient(ellipse at 78% 44%,#10343a 0%,#09191e 32%,#061014 72%)}.hero-grid{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(#8cece508 1px,transparent 1px),linear-gradient(90deg,#8cece508 1px,transparent 1px);background-size:70px 70px;mask-image:linear-gradient(90deg,transparent,#000 60%)}.hero-glow{position:absolute;width:55vw;height:55vw;right:0;top:0;z-index:-1;background:radial-gradient(circle,#49c8c022,transparent 68%);animation:breathe 7s ease-in-out infinite}.beam{position:absolute;z-index:-1;top:-30%;height:160%;width:22vw;filter:blur(26px);background:linear-gradient(90deg,transparent,#78e6df18,transparent);transform:rotate(24deg);animation:sweep 10s ease-in-out infinite alternate}.beam-a{right:20%}.beam-b{right:2%;animation-delay:-4s;opacity:.6}.hero-copy{position:relative;z-index:3;width:60%;max-width:760px}.eyebrow{font:10px 'DM Mono';letter-spacing:2.5px;color:var(--accent);text-transform:uppercase;display:flex;align-items:center;gap:12px}.hero h1{font:500 clamp(4.2rem,8.8vw,9rem)/.94 'Space Grotesk';letter-spacing:-.075em;margin:34px 0 24px}.hero h1 em,.section-title i,.closing h2 i{font-family:Georgia,serif;font-weight:300;color:var(--accent);letter-spacing:-.06em}.period{color:var(--accent)}.hero-sub{font-size:14px;line-height:1.8;color:#9db3b3;max-width:410px}.hero-ctas{display:flex;align-items:center;gap:28px;margin-top:36px}.primary-btn{background:var(--accent);border:1px solid var(--accent);color:#061014;padding:15px 20px;font:600 10px 'DM Mono';letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:.25s}.primary-btn:hover{background:transparent;color:var(--accent);box-shadow:0 0 30px #78e6df25;transform:translateY(-3px)}.primary-btn span{margin-left:24px}.text-btn{background:none;border:0;color:#9bb1b1;font:10px 'DM Mono';letter-spacing:1px;cursor:pointer}.text-btn:hover{color:var(--accent)}.hero-stats{display:flex;gap:45px;margin-top:75px}.hero-stats div{display:flex;flex-direction:column;gap:8px}.hero-stats b{font:400 32px 'Space Grotesk';color:#e6f7f5}.hero-stats b span{color:var(--accent);padding:0 5px}.hero-stats small{font:9px 'DM Mono';letter-spacing:1.5px;color:#6f8c8e}.portrait-wrap{position:absolute;right:9vw;top:50%;width:clamp(240px,29vw,410px);height:min(70vh,650px);transform:translateY(-50%);transition:transform .2s ease-out;z-index:2}.portrait-card{position:absolute;inset:5% 8%;overflow:hidden;border:1px solid #78e6df66;border-radius:48% 48% 4px 4px;background:#10282d;box-shadow:0 30px 100px #0009,0 0 55px #78e6df1c}.portrait-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,#061014e8 100%),linear-gradient(130deg,#78e6df18,transparent 50%)}.portrait-card img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.8) contrast(1.08)}.portrait-overlay{position:absolute;z-index:2;bottom:24px;left:24px;display:flex;flex-direction:column;gap:12px}.portrait-overlay span,.portrait-tag{font:9px 'DM Mono';letter-spacing:2px;color:var(--accent)}.portrait-overlay b{font:500 17px/1.35 'Space Grotesk';letter-spacing:1px}.portrait-orbit{position:absolute;border:1px solid #78e6df38;border-radius:50%;inset:0;transform:rotate(-25deg) scaleX(.72)}.orbit-two{inset:10% -9%;transform:rotate(35deg) scaleX(.7);border-style:dashed;animation:spin 40s linear infinite}.portrait-tag{position:absolute;right:0;bottom:1%;writing-mode:vertical-rl}.portrait-tag span{font-size:16px}.hero-bottom{position:absolute;bottom:28px;left:9vw;right:9vw;display:flex;justify-content:space-between;font:9px 'DM Mono';letter-spacing:2px;color:#597276}.section-pad{padding:130px 10vw;position:relative}.about{display:grid;grid-template-columns:22% 1fr;background:#0a191d;border-top:1px solid #183137}.about-side{position:relative}.vertical-note{position:absolute;top:130px;left:0;writing-mode:vertical-rl;font:9px 'DM Mono';letter-spacing:3px;color:#547276}.about-main{max-width:850px}.section-title{font:500 clamp(2.7rem,5.6vw,5.4rem)/1.05 'Space Grotesk';letter-spacing:-.065em;margin:24px 0 36px}.about-lead{font:400 clamp(1.3rem,2.3vw,2rem)/1.5 'Space Grotesk';max-width:700px;color:#e2f2f0}.body-copy{font-size:13px;line-height:2.1;color:#8ca5a6;max-width:690px}.about-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:35px}.about-chips span{border:1px solid #254148;padding:10px 12px;font:9px 'DM Mono';letter-spacing:1px;color:#9eb8b8}.skills{background:#061014}.section-head{display:flex;align-items:end;justify-content:space-between;gap:40px;margin-bottom:55px}.section-head .body-copy{max-width:300px}.skill-layout{display:grid;grid-template-columns:38% 1fr;border:1px solid #203b40;min-height:360px}.skill-index{border-right:1px solid #203b40}.skill-index button{width:100%;padding:24px 25px;background:transparent;border:0;border-bottom:1px solid #1a3035;text-align:left;display:flex;gap:22px;align-items:center;font:16px 'Space Grotesk';color:#799294;cursor:pointer;transition:.25s}.skill-index button span{font:10px 'DM Mono';color:#527075}.skill-index button b{margin-left:auto;color:var(--accent)}.skill-index button.active,.skill-index button:hover{background:#10252a;color:#e9f8f6;padding-left:34px}.skill-detail{padding:40px 8%;display:flex;flex-direction:column}.skill-detail-top,.skill-foot{display:flex;justify-content:space-between;font:9px 'DM Mono';letter-spacing:1.7px;color:#5e7e82}.skill-detail h3{font:400 clamp(2rem,3vw,3rem) 'Space Grotesk';margin:35px 0;color:var(--accent)}.skill-list{display:grid;grid-template-columns:1fr 1fr;gap:18px}.skill-list div{font-size:12px;color:#b2c7c5;display:flex;gap:12px;align-items:center}.skill-list span{color:var(--accent)}.skill-foot{margin-top:auto;padding-top:50px}.events{background:#0a191d;border-top:1px solid #183137}.events-heading{display:flex;justify-content:space-between;align-items:end}.event-total{display:flex;align-items:center;gap:14px;margin-bottom:38px}.event-total b{font:400 55px 'Space Grotesk';color:var(--accent)}.event-total span{font:9px/1.6 'DM Mono';letter-spacing:1px;color:#789395}.event-controls{display:flex;justify-content:space-between;gap:20px;align-items:center;margin:28px 0 22px;flex-wrap:wrap}.filter-pills{display:flex;gap:7px;flex-wrap:wrap}.filter-pills button,.year-controls button{background:transparent;border:1px solid #284248;padding:9px 12px;color:#8ca6a7;font:9px 'DM Mono';letter-spacing:.5px;cursor:pointer;transition:.2s}.filter-pills button.selected,.filter-pills button:hover,.year-controls button.active,.year-controls button:hover{border-color:var(--accent);color:var(--accent);background:#78e6df0b}.filter-pills sup{font-size:8px;margin-left:6px;color:#5e777a}.search-wrap{display:flex;align-items:center;gap:10px;border-bottom:1px solid #345158;padding:8px 0;color:var(--accent)}.search-wrap input{background:none;border:0;outline:0;color:#e6f5f3;font:11px 'DM Mono';width:190px}.search-wrap input::placeholder{color:#60797c}.year-controls{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-top:1px solid #1e383d;border-bottom:1px solid #1e383d;margin-bottom:22px}.year-controls>span{font:9px 'DM Mono';letter-spacing:1.5px;color:#5e7c80}.year-controls div{display:flex;gap:6px}.year-controls button{padding:6px 10px}.event-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.event-card{position:relative;overflow:hidden;min-height:205px;text-align:left;background:#0d2025;border:1px solid #1d383e;padding:20px;cursor:pointer;display:flex;flex-direction:column;transition:transform .25s,border-color .25s,background .25s;animation:cardIn .5s both}.event-card:hover{transform:translateY(-6px);border-color:var(--accent);background:#112a30}.event-card-top,.event-card-bottom{display:flex;justify-content:space-between;align-items:center;font:9px 'DM Mono';letter-spacing:1px;color:#658286}.event-card-top span:last-child{font-size:17px;color:var(--accent)}.event-card-year{font:500 40px 'Space Grotesk';color:#22444a;margin-top:18px;line-height:1}.event-card h3{font:500 16px/1.35 'Space Grotesk';color:#dcecea;margin:10px 0 24px;position:relative;z-index:1}.event-card-bottom{margin-top:auto;gap:10px}.event-card-bottom span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.event-card-bottom i{font-style:normal;color:var(--accent);font-size:8px;white-space:nowrap}.card-sweep{position:absolute;width:160%;height:90px;left:-180%;top:50%;transform:rotate(-24deg);background:linear-gradient(90deg,transparent,#78e6df12,transparent);transition:left .65s}.event-card:hover .card-sweep{left:120%}.empty-state{padding:50px;text-align:center;color:#799294;font:12px 'DM Mono'}.events-footnote{font:9px 'DM Mono';letter-spacing:2px;color:#577277;margin-top:32px}.closing{min-height:550px;padding:120px 10vw;position:relative;overflow:hidden;background:#061014;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}.closing-glow{position:absolute;width:60vw;height:60vw;right:-10%;top:-70%;background:radial-gradient(circle,#78e6df18,transparent 68%)}.closing h2{font:500 clamp(3.8rem,8vw,7rem)/.95 'Space Grotesk';letter-spacing:-.07em;margin:30px 0 38px}.closing-line{position:absolute;bottom:0;left:10vw;right:10vw;height:1px;background:linear-gradient(90deg,var(--accent),transparent)}footer{padding:28px 6vw;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;background:#040b0e;color:#597276;font:9px 'DM Mono';letter-spacing:1.2px}footer button{background:none;border:0;color:var(--accent);font:9px 'DM Mono';cursor:pointer;letter-spacing:1px}.reveal{opacity:0;transform:translateY(25px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}.reveal.shown{opacity:1;transform:none}.modal-backdrop{position:fixed;inset:0;z-index:200;background:#02090bdc;backdrop-filter:blur(12px);display:grid;place-items:center;padding:20px;animation:fadeIn .2s}.event-modal{position:relative;width:min(560px,100%);padding:48px;background:#0d2025;border:1px solid var(--accent);box-shadow:0 20px 100px #000b}.modal-close{position:absolute;right:18px;top:12px;border:0;background:none;color:var(--accent);font-size:28px;cursor:pointer}.modal-index{font:500 70px 'Space Grotesk';color:#1f454b;margin-top:25px}.event-modal h3{font:500 30px/1.2 'Space Grotesk';margin:8px 0}.event-modal p{color:#88a4a5;font-size:13px}.modal-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.modal-meta span{border:1px solid #315158;padding:8px 10px;font:9px 'DM Mono';color:var(--accent)}.modal-note{margin-top:38px;padding-top:18px;border-top:1px solid #28444a;color:#729093;font:9px 'DM Mono';letter-spacing:1px}@keyframes blink{50%{opacity:.3}}@keyframes breathe{50%{opacity:.5;transform:scale(1.15)}}@keyframes sweep{to{transform:rotate(24deg) translateX(25%)}}@keyframes spin{to{transform:rotate(335deg) scaleX(.7)}}@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@media(max-width:800px){.topbar{padding:0 5vw}.topbar nav{gap:15px}.top-actions{font-size:0}.hero{padding:9vh 7vw 12vh;min-height:850px;align-items:flex-start}.hero-copy{width:100%;padding-top:5vh}.hero h1{font-size:clamp(4.1rem,13vw,7rem)}.portrait-wrap{width:38vw;height:48vh;right:7vw;top:auto;bottom:7%;opacity:.72}.hero-stats{gap:24px;margin-top:45px}.hero-bottom{left:7vw;right:7vw}.section-pad{padding:90px 7vw}.about{grid-template-columns:1fr}.about-side{margin-bottom:45px}.vertical-note{display:none}.skill-layout{grid-template-columns:1fr}.skill-index{border-right:0;border-bottom:1px solid #203b40}.skill-index button{padding:17px 20px}.skill-detail{min-height:310px}.event-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.topbar{height:65px}.topbar nav{display:none;position:absolute;top:64px;left:0;right:0;padding:20px 6vw;background:#071317;border-bottom:1px solid #254148;flex-direction:column;gap:20px}.topbar nav.nav-open{display:flex}.menu-toggle{display:block!important;font-size:20px!important}.top-actions{display:none}.hero{min-height:830px;padding-left:6vw;padding-right:6vw}.hero-copy{padding-top:3vh}.hero h1{font-size:clamp(3.8rem,16vw,5.7rem)}.hero-sub{max-width:310px;font-size:12px}.hero-stats{gap:20px;margin-top:40px}.hero-stats b{font-size:25px}.hero-stats small{font-size:7px}.portrait-wrap{width:42vw;height:37vh;right:4vw;bottom:8%;opacity:.52}.hero-bottom{left:6vw;right:6vw;font-size:7px}.section-pad{padding:80px 6vw}.section-head{display:block}.section-head .body-copy{margin-top:-15px}.skill-list{grid-template-columns:1fr}.skill-detail{padding:30px 22px}.skill-foot{font-size:7px}.events-heading{align-items:center}.event-total b{font-size:40px}.event-controls{align-items:flex-start}.filter-pills{gap:5px}.filter-pills button{padding:8px}.search-wrap{width:100%}.search-wrap input{width:100%}.year-controls{display:block}.year-controls div{margin-top:12px;flex-wrap:wrap}.event-grid{grid-template-columns:1fr 1fr;gap:7px}.event-card{padding:13px;min-height:180px}.event-card h3{font-size:13px}.event-card-year{font-size:32px}.event-card-bottom{font-size:8px}.event-card-bottom i{font-size:7px}.event-modal{padding:35px 25px}.closing{padding:90px 7vw;min-height:450px}footer{padding:25px 6vw;flex-direction:column;gap:12px}.cursor-glow{display:none}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  `}</style>
+ </main>
 }
