@@ -1,23 +1,13 @@
-import { useState, useEffect, useRef } from "react";
-
-const GOLD = "#E8A030";
-const BG = "#0C0C0C";
-const BG2 = "#111111";
-const TEXT = "#F0EDE8";
-const MUTED = "#666";
-const DIMMED = "#2A2A2A";
-
+import {useEffect,useMemo,useRef,useState} from "react";
 const bio = `Supporting live productions through precision, teamwork, and technical excellence.
 I'm Anugrah Arif Eka Saputra (Xsa), a Lighting Crew based in Indonesia with hands-on experience supporting concerts, festivals, corporate events, exhibitions, and large-scale live productions.
 My work focuses on fixture installation, DMX addressing, cable management, equipment preparation, and on-site troubleshooting, ensuring lighting systems are installed safely, accurately, and ready for every show.
 I enjoy working in fast-paced production environments where precision, teamwork, and problem-solving are essential. Every project has strengthened my technical expertise while reinforcing the importance of communication, reliability, and continuous learning within live event production.`;
-
 const skills = [
   { cat: "Rigging & Setup", items: ["Fixture rigging & hanging", "Venue layout & positioning", "Fixture focus & angle"] },
   { cat: "Cable & Patching", items: ["Cable management & routing", "DMX addressing & fixture configuration", "DMX Linking", "Power distribution setup", "Cable labeling & wrap"] },
   { cat: "Operasional", items: ["Load in / load out", "Fixture Testing & System Check", "Fixture troubleshooting", "On-site teamwork & communication"] },
 ];
-
 const events = [
   { n: 1,  title: "WayV Concert — On The Way",       venue: "Istora Senayan",          date: "2024-10-05",                           cat: "Concert"     },
   { n: 2,  title: "JUNI DAY X",                       venue: "Basket Hall GBK",         date: "2024-11-01",                           cat: "Concert"     },
@@ -70,357 +60,37 @@ const events = [
   
   
 ];
-
-const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
-const CAT_COLOR = {
-  Concert:    "#E8A030",
-  Festival:   "#60A5FA",
-  Corporate:  "#A78BFA",
-  Production: "#34D399",
-  Exhibition: "#F472B6",
-};
-
-const TOTAL_EVENTS = events.length;
-
-const START_DATE = new Date("2024-10-01");
-const getMonthsActive = () => {
-  const now = new Date();
-  const years = now.getFullYear() - START_DATE.getFullYear();
-  const months = now.getMonth() - START_DATE.getMonth();
-  return years * 12 + months;
-};
-
-function useInView(threshold = 0.1) {
-  const ref = useRef(null);
-  const [vis, setVis] = useState(false);
-  useEffect(() => {
-    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold });
-    if (ref.current) o.observe(ref.current);
-    return () => o.disconnect();
-  }, []);
-  return [ref, vis];
-}
-
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-  return isMobile;
-}
-
-function Fade({ children, delay = 0 }) {
-  const [ref, vis] = useInView();
-  return (
-    <div ref={ref} style={{
-      opacity: vis ? 1 : 0,
-      transform: vis ? "translateY(0)" : "translateY(20px)",
-      transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
-    }}>
-      {children}
-    </div>
-  );
-}
-
-export default function Portfolio() {
-  const [filter, setFilter] = useState("All");
-  const [activeSec, setActiveSec] = useState(0);
-  const [monthsActive] = useState(() => getMonthsActive());
-  const secRefs = useRef([]);
-  const isMobile = useIsMobile();
-
-  const filtered = filter === "All" ? events : events.filter(e => e.cat === filter);
-  const byYear = filtered.reduce((acc, e) => {
-    const y = e.date.slice(0, 4);
-    if (!acc[y]) acc[y] = [];
-    acc[y].push(e);
-    return acc;
-  }, {});
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          const i = secRefs.current.indexOf(e.target);
-          if (i !== -1) setActiveSec(i);
-        }
-      });
-    }, { threshold: 0.3 });
-    secRefs.current.forEach(r => r && obs.observe(r));
-    return () => obs.disconnect();
-  }, []);
-
-  const setRef = i => el => { secRefs.current[i] = el; };
-  const scrollTo = i => secRefs.current[i]?.scrollIntoView({ behavior: "smooth" });
-
-  return (
-    <div style={{ background: BG, color: TEXT, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", overflowX: "hidden" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
-
-      {!isMobile && (
-        <div style={{ position: "fixed", right: 22, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 10, zIndex: 100 }}>
-          {[0,1,2,3].map(i => (
-            <div key={i} onClick={() => scrollTo(i)} style={{ cursor: "pointer" }}>
-              <div style={{
-                width: 5, height: activeSec === i ? 22 : 5,
-                borderRadius: 3, background: activeSec === i ? GOLD : "#333",
-                transition: "all 0.3s",
-              }} />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* ── HERO ── */}
-      <section ref={setRef(0)} style={{
-        minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center",
-        padding: isMobile ? "0 6vw" : "0 8vw",
-        position: "relative", overflow: "hidden"
-      }}>
-        <div style={{ position: "absolute", top: "20%", left: "35%", width: 500, height: 500, background: `radial-gradient(circle, ${GOLD}15 0%, transparent 65%)`, pointerEvents: "none" }} />
-        <div style={{ position: "relative" }}>
-          <div style={{ fontSize: 10, letterSpacing: 5, color: GOLD, textTransform: "uppercase", marginBottom: 28, animation: "fu 0.8s ease both" }}>
-            Lighting Crew · Since Oct 2024
-          </div>
-          <h1 style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(5rem, 15vw, 12rem)",
-            fontWeight: 300, lineHeight: 0.88, margin: "0 0 20px",
-            letterSpacing: -4, animation: "fu 0.8s ease 0.1s both",
-          }}>Xsaaa</h1>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1rem, 2.2vw, 1.6rem)", fontStyle: "italic", color: MUTED, animation: "fu 0.8s ease 0.2s both" }}>
-            Shaping the stage, one light at a time.
-          </div>
-          <div style={{ width: 40, height: 1, background: GOLD, margin: "36px 0", animation: "fu 0.8s ease 0.3s both" }} />
-
-          <div style={{ display: "flex", gap: isMobile ? 28 : 48, animation: "fu 0.8s ease 0.4s both", flexWrap: "wrap" }}>
-            {[
-              [String(TOTAL_EVENTS), "Events"],
-              [`${monthsActive}+`, "Months"],
-              ["10+", "Venues"]
-            ].map(([n, l]) => (
-              <div key={l}>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: isMobile ? "2.4rem" : "3rem", fontWeight: 300, color: GOLD, lineHeight: 1 }}>{n}</div>
-                <div style={{ fontSize: 10, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>{l}</div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ display: "flex", gap: 12, marginTop: 48, animation: "fu 0.8s ease 0.5s both", flexWrap: "wrap" }}>
-            {[["Events →", 3], ["Skills →", 2]].map(([label, target], i) => (
-              <button key={label} onClick={() => scrollTo(target)} style={{
-                background: i === 0 ? GOLD : "transparent", color: i === 0 ? "#000" : TEXT,
-                border: `1px solid ${i === 0 ? GOLD : "#333"}`, padding: "11px 26px",
-                fontSize: "0.78rem", letterSpacing: 2, textTransform: "uppercase",
-                cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s",
-              }}
-                onMouseEnter={e => { e.target.style.background = GOLD; e.target.style.color = "#000"; e.target.style.borderColor = GOLD; }}
-                onMouseLeave={e => { e.target.style.background = i===0?GOLD:"transparent"; e.target.style.color = i===0?"#000":TEXT; e.target.style.borderColor = i===0?GOLD:"#333"; }}
-              >{label}</button>
-            ))}
-          </div>
-        </div>
-        <div style={{ position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)", textAlign: "center", animation: "fu 1s ease 1.2s both" }}>
-          <div style={{ fontSize: 9, letterSpacing: 4, color: MUTED, textTransform: "uppercase", marginBottom: 8 }}>Scroll</div>
-          <div style={{ width: 1, height: 36, background: `linear-gradient(${GOLD}, transparent)`, margin: "0 auto", animation: "pulse 1.6s ease infinite" }} />
-        </div>
-      </section>
-
-      {/* ── ABOUT ── */}
-      <section ref={setRef(1)} style={{ minHeight: "65vh", display: "flex", alignItems: "center", padding: isMobile ? "80px 6vw" : "100px 8vw", background: BG2 }}>
-        <div style={{ maxWidth: 760, width: "100%" }}>
-          <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>About</div></Fade>
-          <Fade delay={0.1}>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 32px", letterSpacing: -1, lineHeight: 1.1 }}>
-              Creating immersive environments<br /><span style={{ fontStyle: "italic", color: GOLD }}>through lighting.</span>
-            </h2>
-          </Fade>
-          <Fade delay={0.2}>
-            <p style={{ lineHeight: 2, color: "#999", fontSize: "0.93rem", fontWeight: 300, maxWidth: 520, margin: "0 0 48px" }}>{bio}</p>
-          </Fade>
-          <Fade delay={0.3}>
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-              gap: 2,
-            }}>
-              {[["K-Pop","Concert"],["International","Artist"],["Festival","Outdoor"],["Corporate","& Event"]].map(([a,b]) => (
-                <div key={a} style={{ background: "#1A1A1A", padding: "20px 16px", borderTop: `2px solid #222` }}>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", color: GOLD }}>{a}</div>
-                  <div style={{ fontSize: "0.72rem", color: MUTED, letterSpacing: 1, marginTop: 4 }}>{b}</div>
-                </div>
-              ))}
-            </div>
-          </Fade>
-        </div>
-      </section>
-
-      {/* ── SKILLS ── */}
-      <section ref={setRef(2)} style={{ minHeight: "65vh", padding: isMobile ? "80px 6vw" : "100px 8vw", background: BG }}>
-        <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Skills</div></Fade>
-        <Fade delay={0.1}>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 56px", letterSpacing: -1, lineHeight: 1.1 }}>
-            What i&apos;m doing <br /><span style={{ fontStyle: "italic", color: GOLD }}>at field.</span>
-          </h2>
-        </Fade>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 2 }}>
-          {skills.map((s, i) => <Fade key={s.cat} delay={i*0.07}><SkillCard skill={s} /></Fade>)}
-        </div>
-        <Fade delay={0.4}>
-          <div style={{ marginTop: 40, padding: "20px 24px", border: `1px solid #222`, borderLeft: `3px solid ${GOLD}`, maxWidth: 480 }}>
-            <div style={{ fontSize: 9, color: GOLD, letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}></div>
-            <div style={{ color: "#777", fontSize: "0.85rem", lineHeight: 1.8 }}></div>
-          </div>
-        </Fade>
-      </section>
-
-      {/* ── EVENTS ── */}
-      <section ref={setRef(3)} style={{ minHeight: "80vh", padding: isMobile ? "80px 6vw" : "100px 8vw", background: BG2 }}>
-        <Fade><div style={{ fontSize: 10, letterSpacing: 4, color: GOLD, textTransform: "uppercase", marginBottom: 16 }}>Event History</div></Fade>
-        <Fade delay={0.1}>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 4rem)", fontWeight: 300, margin: "0 0 40px", letterSpacing: -1, lineHeight: 1.1 }}>
-            {TOTAL_EVENTS} event.<br /><span style={{ fontStyle: "italic", color: GOLD }}></span>
-          </h2>
-        </Fade>
-
-        {/* Filter */}
-        <Fade delay={0.2}>
-          <div style={{ display: "flex", gap: 8, marginBottom: 48, flexWrap: "wrap" }}>
-            {CATS.map(c => {
-              const count = c === "All" ? events.length : events.filter(e => e.cat === c).length;
-              const active = filter === c;
-              const color = CAT_COLOR[c] || GOLD;
-              return (
-                <button key={c} onClick={() => setFilter(c)} style={{
-                  background: active ? (c === "All" ? GOLD : color) : "transparent",
-                  color: active ? "#000" : MUTED,
-                  border: `1px solid ${active ? (c === "All" ? GOLD : color) : "#2A2A2A"}`,
-                  padding: "8px 14px", fontSize: "0.73rem", letterSpacing: 2,
-                  textTransform: "uppercase", cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
-                  transition: "all 0.2s",
-                }}>
-                  {c} ({count})
-                </button>
-              );
-            })}
-          </div>
-        </Fade>
-
-        {/* By year */}
-        {Object.keys(byYear).sort().reverse().map((year, yi) => (
-          <div key={year} style={{ marginBottom: 52 }}>
-            <Fade delay={yi * 0.05}>
-              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.9rem", color: GOLD, letterSpacing: 3 }}>{year}</div>
-                <div style={{ flex: 1, height: 1, background: DIMMED }} />
-                <div style={{ fontSize: 10, color: MUTED, letterSpacing: 2 }}>{byYear[year].length} events</div>
-              </div>
-            </Fade>
-            <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              {byYear[year].map((e, i) => (
-                <Fade key={e.n} delay={i * 0.025}>
-                  <EventRow event={e} isMobile={isMobile} />
-                </Fade>
-              ))}
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{ padding: isMobile ? "40px 6vw" : "56px 8vw", background: "#080808", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-        <div>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontWeight: 300, letterSpacing: -1 }}>Xsaaa</div>
-          <div style={{ fontSize: 9, letterSpacing: 3, color: MUTED, textTransform: "uppercase", marginTop: 4 }}>Lighting Crew</div>
-        </div>
-        <div style={{ fontSize: "0.73rem", color: MUTED, letterSpacing: 1 }}>Since Oct 2024 · Jakarta</div>
-      </footer>
-
-      <style>{`
-        @keyframes fu { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
-        * { box-sizing:border-box; }
-        body { margin:0; overflow-x:hidden; }
-        ::-webkit-scrollbar { width:3px; }
-        ::-webkit-scrollbar-thumb { background:#2A2A2A; border-radius:2px; }
-      `}</style>
-    </div>
-  );
-}
-
-function SkillCard({ skill }) {
-  const [hov, setHov] = useState(false);
-  return (
-    <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{
-      background: hov ? "#181818" : "#141414",
-      padding: "30px 26px",
-      borderTop: `2px solid ${hov ? GOLD : "#222"}`,
-      transition: "all 0.3s",
-    }}>
-      <div style={{ fontSize: 10, letterSpacing: 3, color: hov ? GOLD : MUTED, textTransform: "uppercase", marginBottom: 18, transition: "color 0.3s" }}>{skill.cat}</div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {skill.items.map(item => (
-          <div key={item} style={{ fontSize: "0.83rem", color: "#BBB", display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 4, height: 4, borderRadius: "50%", background: GOLD, flexShrink: 0 }} />
-            {item}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function EventRow({ event, isMobile }) {
-  const [hov, setHov] = useState(false);
-  const d = new Date(event.date);
-  const fmt = event.endDate
-    ? (() => {
-        const end = new Date(event.endDate);
-        const sameMonth = d.getMonth() === end.getMonth() && d.getFullYear() === end.getFullYear();
-        const startStr = d.toLocaleDateString("id-ID", { day: "2-digit", ...(!sameMonth && { month: "short" }) });
-        const endStr = end.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
-        return `${startStr}–${endStr}`;
-      })()
-    : d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
-  const color = CAT_COLOR[event.cat] || GOLD;
-  return (
-    <div
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        display: "grid",
-        gridTemplateColumns: isMobile ? "28px 1fr auto" : "38px 1fr auto auto",
-        gap: isMobile ? "0 10px" : "0 18px",
-        alignItems: "center",
-        padding: isMobile ? "12px 10px" : "14px 18px",
-        background: hov ? "#181818" : "transparent",
-        borderLeft: `2px solid ${hov ? color : "transparent"}`,
-        transition: "all 0.2s",
-      }}
-    >
-      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: hov ? color : "#333", transition: "color 0.2s" }}>
-        {String(event.n).padStart(2, "0")}
-      </div>
-      <div style={{ minWidth: 0 }}>
-        <div style={{ fontSize: isMobile ? "0.8rem" : "0.86rem", color: hov ? TEXT : "#AAA", fontWeight: 400, transition: "color 0.2s", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-          {event.title}
-        </div>
-        <div style={{ fontSize: "0.7rem", color: MUTED, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-          {event.venue}
-        </div>
-      </div>
-      <span style={{
-        fontSize: 9, letterSpacing: 1.5, color, border: `1px solid ${color}35`,
-        padding: "3px 8px", textTransform: "uppercase", whiteSpace: "nowrap",
-      }}>
-        {event.cat}
-      </span>
-      {!isMobile && (
-        <div style={{ fontSize: "0.73rem", color: MUTED, whiteSpace: "nowrap", textAlign: "right" }}>{fmt}</div>
-      )}
-    </div>
-  );
+const portrait="data:image/webp;base64,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";
+const dateNum=d=>new Date(d+"T00:00:00").getTime();
+const fmt=d=>new Date(d+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+function Reveal({children,className=""}){const ref=useRef(null),[on,setOn]=useState(false);useEffect(()=>{const io=new IntersectionObserver(([e])=>{if(e.isIntersecting){setOn(true);io.disconnect()}},{threshold:.12});if(ref.current)io.observe(ref.current);return()=>io.disconnect()},[]);return <div ref={ref} className={`reveal ${on?"shown":""} ${className}`}>{children}</div>}
+export default function App(){
+ const [cat,setCat]=useState("All"),[year,setYear]=useState("All"),[query,setQuery]=useState(""),[selected,setSelected]=useState(null),[skill,setSkill]=useState(0),[hue,setHue]=useState(174),[power,setPower]=useState(72),[beams,setBeams]=useState(true),[menu,setMenu]=useState(false),[scroll,setScroll]=useState(0),[mouse,setMouse]=useState({x:0,y:0});
+ const hero=useRef(null),lab=useRef(null);
+ useEffect(()=>{const sc=()=>{const max=document.documentElement.scrollHeight-innerHeight;setScroll(max?scrollY/max*100:0)};const mm=e=>setMouse({x:e.clientX,y:e.clientY});addEventListener("scroll",sc,{passive:true});addEventListener("mousemove",mm);return()=>{removeEventListener("scroll",sc);removeEventListener("mousemove",mm)}},[]);
+ const cats=["All",...new Set(events.map(e=>e.cat))],years=[...new Set(events.map(e=>e.date.slice(0,4)))].sort((a,b)=>b.localeCompare(a));
+ const list=useMemo(()=>events.filter(e=>(cat==="All"||e.cat===cat)&&(year==="All"||e.date.startsWith(year))&&(`${e.title} ${e.venue}`.toLowerCase().includes(query.toLowerCase()))).sort((a,b)=>dateNum(b.date)-dateNum(a.date)),[cat,year,query]);
+ const jump=id=>{document.getElementById(id)?.scrollIntoView({behavior:"smooth"});setMenu(false)};
+ const timeline=[{year:"2024",title:"First steps in live production",desc:"Starting the journey as a Lighting Crew and learning the rhythm of show days."},{year:"2025",title:"Growing through bigger productions",desc:"Supporting concerts, festivals, exhibitions, and corporate productions."},{year:"2026",title:"Expanding the field experience",desc:"Building technical confidence across more live events and venues."}];
+ return <main className="app" style={{"--aqua":`hsl(${hue} 85% 68%)`,"--glow":power/100}}>
+ <div className="scrollbar" style={{width:scroll+"%"}}/><div className="pointerlight" style={{left:mouse.x,top:mouse.y}}/>
+ <header className="top"><a className="brand" href="#top" onClick={e=>{e.preventDefault();jump("top")}}>XSA<span>✳</span></a><nav className={menu?"navopen":""}><button onClick={()=>jump("story")}>STORY</button><button onClick={()=>jump("journey")}>JOURNEY</button><button onClick={()=>jump("archive")}>ARCHIVE</button><button onClick={()=>jump("lab")}>LIGHTING LAB</button></nav><button className="contactbtn" onClick={()=>jump("contact")}>LET'S CONNECT ↗</button><button className="menubtn" onClick={()=>setMenu(!menu)}>{menu?"×":"☰"}</button></header>
+ <section className="hero" id="top" ref={hero}>
+  <div className="stagegrid"/><div className="scanline"/><div className="beams">{Array.from({length:7},(_,i)=><i key={i} style={{"--i":i}}/>)}</div>
+  <div className="hero-inner"><div className="hero-copy"><div className="eyebrow"><i/> LIVE PRODUCTION · INDONESIA · EST. 2024</div><div className="micro">THE PEOPLE BEHIND THE MOMENT</div><h1>WE MAKE<br/>THE NIGHT<br/><em>LIGHT UP.</em></h1><p className="intro">I'm Xsa — a Lighting Crew member working behind the scenes to bring live experiences to life.</p><div className="actions"><button className="primary" onClick={()=>jump("archive")}>EXPLORE THE ARCHIVE <b>↗</b></button><button className="textbtn" onClick={()=>jump("story")}>DISCOVER MY STORY ↓</button></div><div className="stats"><div><b>48</b><small>SHOWS LOGGED</small></div><div><b>03</b><small>YEARS IN THE FIELD</small></div><div><b>∞</b><small>WAYS TO CREATE</small></div></div></div>
+  <div className="hero-art"><div className="orbit o1"/><div className="orbit o2"/><div className="portrait"><img src={portrait} alt="Xsa portrait"/><div className="portraittag"><small>LIGHTING CREW / 001</small><b>ANUGRAH ARIF<br/>EKA SAPUTRA</b></div></div><div className="sidecode">LX · DMX · LIVE SHOWS</div><div className="crosshair">＋</div></div></div>
+  <div className="hero-bottom"><span>01 / INTRODUCTION</span><span>SCROLL TO ENTER THE EXPERIENCE ↓</span><span>JAKARTA · ID</span></div>
+ </section>
+ <section className="story section" id="story"><Reveal><div className="label">01 — THE PERSON / ABOUT</div><div className="storygrid"><div><p className="overline">MORE THAN WHAT HAPPENS ON STAGE.</p><h2>THE SHOW IS<br/>THE <em>RESULT.</em></h2></div><div className="storytext"><p className="big">I'm Anugrah Arif Eka Saputra (Xsa), a Lighting Crew based in Indonesia.</p><p>My work focuses on fixture installation, DMX addressing, cable management, equipment preparation, and on-site troubleshooting — helping turn production plans into moments people remember.</p><p>I enjoy fast-paced production environments where precision, teamwork, communication, and problem-solving matter.</p><div className="chips"><span>PRECISION</span><span>TEAMWORK</span><span>EXECUTION</span><span>CONTINUOUS LEARNING</span></div></div></div></Reveal></section>
+ <section className="journey section" id="journey"><Reveal><div className="label">02 — THE JOURNEY / EXPERIENCE</div><h2>BUILT ONE<br/><em>SHOW AT A TIME.</em></h2><div className="timeline">{timeline.map((t,i)=><div className="milestone" key={t.year}><div className="mileline"><i/></div><div className="mileyear">{t.year}</div><div><h3>{t.title}</h3><p>{t.desc}</p></div><span className="mileindex">0{i+1}</span></div>)}</div></Reveal></section>
+ <section className="skills section" id="skills"><Reveal><div className="label">03 — CAPABILITIES / SKILLS</div><div className="splithead"><h2>TECHNICAL<br/><em>IN PRACTICE.</em></h2><p>Explore the disciplines I work with across live event production.</p></div><div className="skillbox"><div className="skillnav">{skills.map((s,i)=><button key={s.cat} className={skill===i?"sel":""} onClick={()=>setSkill(i)}><small>0{i+1}</small>{s.cat}<b>↗</b></button>)}</div><div className="skilldetail"><small>SELECTED DISCIPLINE / 0{skill+1}</small><h3>{skills[skill].cat}</h3><ul>{skills[skill].items.map((it,i)=><li key={it}><i>↗</i>{it}</li>)}</ul><div className="skillfoot">FIELD EXPERIENCE · LIVE PRODUCTION</div></div></div></Reveal></section>
+ <section className="archive section" id="archive"><Reveal><div className="label">04 — THE WORK LOG / 48 ENTRIES</div><div className="archivehead"><h2>EVERY SHOW<br/><em>LEAVES A TRACE.</em></h2><div className="total"><b>{String(list.length).padStart(2,"0")}</b><small>PROJECTS<br/>MATCHED</small></div></div><div className="filters"><div className="catlist">{cats.map(c=><button className={cat===c?"sel":""} onClick={()=>setCat(c)} key={c}>{c}</button>)}</div><input className="search" placeholder="⌕  SEARCH EVENT / VENUE" value={query} onChange={e=>setQuery(e.target.value)}/></div><div className="years"><span>FILTER BY YEAR</span>{["All",...years].map(y=><button key={y} className={year===y?"sel":""} onClick={()=>setYear(y)}>{y}</button>)}</div><div className="eventlist">{list.map((e,i)=><button className="event" key={e.n} onClick={()=>setSelected(e)}><span className="eventnum">{String(e.n).padStart(2,"0")}</span><span className="eventdate">{fmt(e.date)}</span><span className="eventname">{e.title}<small>{e.venue}</small></span><span className="eventcat">{e.cat}</span><b className="eventarrow">↗</b></button>)}</div>{!list.length&&<p className="empty">NO MATCHES — TRY ANOTHER FILTER.</p>}<div className="archivefoot">LATEST FIRST · SELECT AN ENTRY TO OPEN ITS PROJECT FILE</div></Reveal></section>
+ <section className="lab section" id="lab" ref={lab}><Reveal><div className="label">05 — INTERACTIVE EXPERIENCE / LIGHTING LAB</div><div className="splithead"><h2>TAKE CONTROL<br/><em>OF THE LIGHT.</em></h2><p>A small interactive playground inspired by the lighting atmosphere behind live shows.</p></div><div className="console"><div className="stageview" style={{"--hue":hue,"--power":power/100}}><div className="stagefloor"/><div className="stagebeams">{beams&&Array.from({length:5},(_,i)=><i key={i} style={{"--n":i}}/>)}</div><div className="stageglow"/><div className="stagecaption"><small>LIVE OUTPUT / SIMULATION</small><b>LIGHTING<br/>SCENE_0{Math.round(power/20)}</b></div><span className="live"><i/> LIVE PREVIEW</span></div><div className="controls"><div className="controltitle"><span>DMX CONTROL SURFACE</span><b>UNIVERSE 001</b></div><label>COLOR / HUE <strong>{hue}°</strong><input type="range" min="155" max="220" value={hue} onChange={e=>setHue(+e.target.value)}/><div className="rangeends"><span>AQUA</span><span>ICE BLUE</span></div></label><label>INTENSITY <strong>{power}%</strong><input type="range" min="10" max="100" value={power} onChange={e=>setPower(+e.target.value)}/><div className="rangeends"><span>DIM</span><span>FULL</span></div></label><button className={beams?"toggle active":"toggle"} onClick={()=>setBeams(!beams)}><i/>{beams?"BEAMS ENABLED":"BEAMS DISABLED"}<b>↗</b></button><div className="presets"><small>QUICK SCENES</small><div><button onClick={()=>{setHue(174);setPower(75);setBeams(true)}}>AQUA WASH</button><button onClick={()=>{setHue(205);setPower(100);setBeams(true)}}>ICE BLUE</button><button onClick={()=>{setHue(185);setPower(25);setBeams(false)}}>LOW FOG</button></div></div></div></div></Reveal></section>
+ <section className="contact section" id="contact"><Reveal><div className="label">06 — NEXT CHAPTER / CONTACT</div><p className="overline">THE SHOW ENDS. THE EXPERIENCE STAYS.</p><h2>SEE YOU<br/><em>BEHIND THE LIGHTS.</em></h2><button className="primary" onClick={()=>window.open("https://www.instagram.com/callme_xsa/","_blank","noopener,noreferrer")}>CONNECT ON INSTAGRAM ↗</button></Reveal></section>
+ <footer><a className="brand" href="#top" onClick={e=>{e.preventDefault();jump("top")}}>XSA<span>✳</span></a><span>BUILT AROUND THE WORK BEHIND THE SHOW.</span><button onClick={()=>jump("top")}>BACK TO TOP ↑</button></footer>
+ {selected&&<div className="modalback" onMouseDown={e=>e.target===e.currentTarget&&setSelected(null)}><article className="modal"><button className="x" onClick={()=>setSelected(null)}>×</button><small>PROJECT ARCHIVE / ENTRY {String(selected.n).padStart(2,"0")}</small><h2>{selected.title}</h2><p>{selected.venue}</p><div className="modtags"><span>{selected.cat}</span><span>{fmt(selected.date)}{selected.endDate?" — "+fmt(selected.endDate):""}</span></div><p className="modnote">LIVE EVENT PRODUCTION · LIGHTING CREW · ON-SITE EXECUTION</p></article></div>}
+ <style>{`
+ @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+ *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}body{margin:0;background:#050b10;color:#eaf7f5;font-family:Manrope,sans-serif}button,input{font:inherit}.app{--aqua:hsl(174 85% 68%);background:#050b10;overflow:hidden}.scrollbar{position:fixed;z-index:1000;top:0;left:0;height:2px;background:var(--aqua);box-shadow:0 0 18px var(--aqua)}.pointerlight{position:fixed;z-index:0;pointer-events:none;width:360px;height:360px;transform:translate(-50%,-50%);background:radial-gradient(circle,#62f8e51b,transparent 68%)}.top{height:76px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 7vw;background:#050b10e8;backdrop-filter:blur(20px);border-bottom:1px solid #1a353b}.brand{font:800 23px 'Barlow Condensed';letter-spacing:3px;color:#f1ffff;text-decoration:none}.brand span{color:var(--aqua);margin-left:5px}.top nav{display:flex;gap:34px}.top button,.top nav button{background:none;border:0;color:#9bb6b6;font:10px 'DM Mono';letter-spacing:1.5px;cursor:pointer}.top nav button:hover,.contactbtn:hover{color:var(--aqua)}.top .contactbtn{border:1px solid #35616a;padding:12px 16px;color:var(--aqua)}.menubtn{display:none}.hero{min-height:calc(100vh - 76px);position:relative;isolation:isolate;background:radial-gradient(ellipse at 77% 45%,#123d43 0%,#0a1b22 34%,#050b10 73%);padding:8vh 8vw;display:flex;align-items:center}.stagegrid{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(#7ce8df0b 1px,transparent 1px),linear-gradient(90deg,#7ce8df0b 1px,transparent 1px);background-size:58px 58px;mask-image:linear-gradient(90deg,transparent,#000)}.scanline{position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 49.8%,#7ce8df09 50%,transparent 50.2%);background-size:100% 5px;pointer-events:none}.beams{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}.beams i{position:absolute;top:-30%;left:calc(48% + var(--i)*7%);height:150%;width:8%;background:linear-gradient(90deg,transparent,#70fff01a,transparent);filter:blur(14px);transform:rotate(23deg);animation:beamMove calc(4s + var(--i)*.7s) ease-in-out infinite alternate;animation-delay:calc(var(--i)*-.6s)}.hero-inner{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;width:100%;max-width:1450px;margin:auto}.hero-copy{position:relative;z-index:2}.eyebrow,.label{font:10px 'DM Mono';letter-spacing:2px;color:var(--aqua)}.eyebrow{display:flex;align-items:center;gap:10px}.eyebrow i,.live i{width:6px;height:6px;border-radius:50%;background:var(--aqua);box-shadow:0 0 12px var(--aqua)}.micro,.overline{font:10px 'DM Mono';letter-spacing:3px;color:#829fa1}.micro{margin-top:65px}.hero h1{font:800 clamp(5rem,10vw,10rem)/.79 'Barlow Condensed';letter-spacing:-.025em;margin:20px 0 28px}.hero h1 em,.section h2 em{font-style:normal;color:var(--aqua);text-shadow:0 0 35px #67fff044}.intro{max-width:430px;color:#9db5b5;font-size:14px;line-height:1.9}.actions{display:flex;align-items:center;gap:25px;margin-top:32px}.primary{background:var(--aqua);color:#061114;border:1px solid var(--aqua);padding:16px 19px;font:600 10px 'DM Mono';letter-spacing:1px;cursor:pointer;transition:.3s}.primary b{margin-left:25px}.primary:hover{background:transparent;color:var(--aqua);transform:translateY(-4px);box-shadow:0 0 35px #70fff044}.textbtn{background:none;border:0;color:#9cb6b7;font:10px 'DM Mono';cursor:pointer}.stats{display:flex;gap:42px;margin-top:65px}.stats div{display:flex;flex-direction:column;gap:7px}.stats b{font:500 32px 'Barlow Condensed';color:#efffff}.stats small{font:8px 'DM Mono';letter-spacing:1px;color:#66878a}.hero-art{height:min(72vh,700px);min-height:450px;position:relative;perspective:900px;animation:float 7s ease-in-out infinite}.portrait{position:absolute;inset:5% 13%;overflow:hidden;border:1px solid #7ce8df80;border-radius:48% 48% 2px 2px;box-shadow:0 0 70px #65f9e51b,0 35px 90px #000b;transform:rotateY(-8deg);animation:portraitFloat 6s ease-in-out infinite}.portrait img{width:100%;height:100%;object-fit:cover;object-position:center;filter:contrast(1.08) saturate(.82)}.portrait:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,#050b10ee)}.portraittag{position:absolute;z-index:2;bottom:25px;left:25px;display:grid;gap:9px}.portraittag small{font:9px 'DM Mono';color:var(--aqua);letter-spacing:2px}.portraittag b{font:600 21px 'Barlow Condensed';letter-spacing:1px}.orbit{position:absolute;inset:0;border:1px solid #75fff044;border-radius:50%;transform:rotate(-25deg) scaleX(.75)}.o2{inset:12% -4%;border-style:dashed;transform:rotate(25deg) scaleX(.72);animation:orbit 35s linear infinite}.sidecode{position:absolute;right:2%;bottom:15%;writing-mode:vertical-rl;font:9px 'DM Mono';letter-spacing:2px;color:var(--aqua)}.crosshair{position:absolute;top:10%;right:12%;color:var(--aqua);font-size:24px;animation:pulse 2s infinite}.hero-bottom{position:absolute;bottom:24px;left:8vw;right:8vw;display:flex;justify-content:space-between;color:#658589;font:8px 'DM Mono';letter-spacing:1.5px}.section{padding:125px 10vw;position:relative}.story{background:#09171c;border-block:1px solid #1a353b}.storygrid{display:grid;grid-template-columns:1fr 1fr;gap:8vw;align-items:center}.section h2{font:800 clamp(3.5rem,7vw,7rem)/.88 'Barlow Condensed';letter-spacing:-.02em;margin:30px 0 40px}.storytext p{font-size:13px;line-height:2;color:#91aaab}.storytext .big{font:500 21px/1.6 Manrope;color:#eaf7f5}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:25px}.chips span{border:1px solid #315158;padding:9px 11px;color:#a9c2c1;font:8px 'DM Mono';letter-spacing:1px}.journey{background:#050b10}.timeline{margin-top:65px;border-top:1px solid #25434a}.milestone{display:grid;grid-template-columns:32px 110px 1fr 40px;gap:25px;align-items:start;padding:30px 0;border-bottom:1px solid #203a40;transition:.3s}.milestone:hover{padding-left:15px;background:linear-gradient(90deg,#7ce8df0d,transparent)}.mileline{height:100%;display:flex;justify-content:center}.mileline i{width:9px;height:9px;border:2px solid var(--aqua);border-radius:50%;box-shadow:0 0 15px var(--aqua);margin-top:7px}.mileyear{font:500 24px 'Barlow Condensed';color:var(--aqua)}.milestone h3{font:500 21px 'Manrope';margin:0 0 8px}.milestone p{font-size:12px;color:#89a3a5;margin:0;line-height:1.8}.mileindex{font:10px 'DM Mono';color:#58777b}.skills{background:#09171c}.splithead{display:flex;justify-content:space-between;align-items:end;gap:30px}.splithead p{max-width:300px;color:#8ca7a8;font-size:12px;line-height:1.9}.skillbox{display:grid;grid-template-columns:38% 1fr;border:1px solid #2a4b52;margin-top:30px;min-height:350px}.skillnav{border-right:1px solid #2a4b52}.skillnav button{width:100%;display:flex;align-items:center;gap:17px;text-align:left;padding:23px;background:transparent;border:0;border-bottom:1px solid #203c42;color:#93adae;font:14px Manrope;cursor:pointer;transition:.25s}.skillnav button small{font:9px 'DM Mono';color:#648387}.skillnav button b{margin-left:auto;color:var(--aqua)}.skillnav button.sel,.skillnav button:hover{background:#11282d;color:white;padding-left:32px}.skilldetail{padding:40px 8%;display:flex;flex-direction:column}.skilldetail>small,.skillfoot{font:9px 'DM Mono';letter-spacing:1.5px;color:#6f9295}.skilldetail h3{font:500 35px 'Barlow Condensed';color:var(--aqua);margin:28px 0}.skilldetail ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:18px}.skilldetail li{font-size:12px;color:#c4d8d6}.skilldetail li i{font-style:normal;color:var(--aqua);margin-right:12px}.skillfoot{margin-top:auto;padding-top:35px}.archive{background:#050b10;border-top:1px solid #1c373d}.archivehead{display:flex;justify-content:space-between;align-items:end}.total{display:flex;align-items:center;gap:12px;margin-bottom:35px}.total b{font:500 55px 'Barlow Condensed';color:var(--aqua)}.total small{font:8px/1.5 'DM Mono';color:#799799}.filters{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap;margin:20px 0}.catlist{display:flex;gap:6px;flex-wrap:wrap}.catlist button,.years button{border:1px solid #2d4d54;background:transparent;color:#9ab3b4;padding:9px 12px;font:9px 'DM Mono';cursor:pointer}.catlist button.sel,.catlist button:hover,.years button.sel,.years button:hover{border-color:var(--aqua);color:var(--aqua);background:#7ce8df0d}.search{background:transparent;border:0;border-bottom:1px solid #426068;padding:10px;color:white;outline:none;font:10px 'DM Mono';min-width:220px}.search::placeholder{color:#729093}.years{display:flex;align-items:center;gap:8px;padding:15px 0;border-block:1px solid #203d43;margin-bottom:8px}.years span{margin-right:auto;font:9px 'DM Mono';color:#739295;letter-spacing:1px}.years button{padding:6px 10px}.eventlist{display:flex;flex-direction:column}.event{width:100%;display:grid;grid-template-columns:40px 105px 1fr 100px 25px;gap:14px;align-items:center;text-align:left;padding:20px 8px;background:none;border:0;border-bottom:1px solid #20383e;color:#edf9f7;cursor:pointer;transition:.25s}.event:hover{background:#10272c;padding-left:20px}.eventnum,.eventdate,.eventcat{font:9px 'DM Mono';color:#769496}.eventname{font:500 14px Manrope}.eventname small{display:block;margin-top:5px;font:10px 'DM Mono';color:#789497}.eventcat{color:var(--aqua)}.eventarrow{color:var(--aqua);font-size:18px}.event:hover .eventarrow{transform:translate(3px,-3px)}.archivefoot,.empty{font:9px 'DM Mono';letter-spacing:1.5px;color:#6e8c90;margin-top:24px}.lab{background:#09171c;border-block:1px solid #1c3b41}.console{display:grid;grid-template-columns:1.2fr .8fr;border:1px solid #31555c;margin-top:35px;min-height:390px}.stageview{position:relative;overflow:hidden;min-height:390px;background:radial-gradient(ellipse at 50% 75%,hsla(var(--hue),90%,55%,calc(var(--power)*.28)),transparent 58%),linear-gradient(#0c2027,#050c11);isolation:isolate}.stagefloor{position:absolute;left:0;right:0;bottom:0;height:28%;background:linear-gradient(transparent,#102a30);border-top:1px solid #7ce8df20;transform:perspective(300px) rotateX(25deg);transform-origin:bottom}.stagebeams{position:absolute;inset:-20% 0 0;overflow:hidden}.stagebeams i{position:absolute;left:calc(18% + var(--n)*16%);top:0;width:12%;height:110%;background:linear-gradient(180deg,hsla(var(--hue),100%,75%,calc(var(--power)*.009)),transparent 85%);clip-path:polygon(44% 0,56% 0,100% 100%,0 100%);filter:blur(7px);transform:rotate(calc((var(--n) - 2)*8deg));animation:stagePulse 2.5s ease-in-out infinite alternate;animation-delay:calc(var(--n)*-.4s)}.stageglow{position:absolute;bottom:10%;left:15%;right:15%;height:20%;background:hsla(var(--hue),100%,65%,calc(var(--power)*.006));filter:blur(35px)}.stagecaption{position:absolute;left:30px;bottom:30px;display:grid;gap:8px}.stagecaption small,.live{font:9px 'DM Mono';letter-spacing:1px;color:var(--aqua)}.stagecaption b{font:700 38px/.9 'Barlow Condensed';letter-spacing:1px}.live{position:absolute;right:22px;top:22px;display:flex;align-items:center;gap:8px}.controls{padding:30px;display:flex;flex-direction:column;gap:28px;background:#0a1c21}.controltitle{display:flex;justify-content:space-between;font:9px 'DM Mono';letter-spacing:1px;color:var(--aqua)}.controltitle b{color:#6f8d90}.controls label{display:grid;grid-template-columns:1fr auto;gap:12px;color:#b4c9c8;font:9px 'DM Mono';letter-spacing:1px}.controls label strong{color:var(--aqua)}.controls input{grid-column:1/-1;width:100%;accent-color:var(--aqua)}.rangeends{grid-column:1/-1;display:flex;justify-content:space-between;color:#6e8d90;font-size:8px}.toggle{display:flex;align-items:center;gap:12px;background:none;border:1px solid #31555c;color:#a9c2c1;padding:12px;font:9px 'DM Mono';cursor:pointer}.toggle i{width:8px;height:8px;border-radius:50%;background:#50666a}.toggle.active i{background:var(--aqua);box-shadow:0 0 12px var(--aqua)}.toggle b{margin-left:auto;color:var(--aqua)}.presets small{font:8px 'DM Mono';color:#739396;letter-spacing:1px}.presets div{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.presets button{background:#102a30;border:1px solid #31545b;color:#a9c4c2;padding:8px;font:8px 'DM Mono';cursor:pointer}.presets button:hover{border-color:var(--aqua);color:var(--aqua)}.contact{min-height:570px;display:flex;align-items:center;background:radial-gradient(ellipse at 75% 50%,#14464b,#050b10 65%)}.contact .overline{margin-top:65px}.contact h2{font-size:clamp(4rem,9vw,9rem);margin:22px 0 38px}.reveal{opacity:0;transform:translateY(38px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}.reveal.shown{opacity:1;transform:none}footer{padding:27px 7vw;background:#03080b;display:flex;justify-content:space-between;align-items:center;gap:20px;color:#6f8e91;font:8px 'DM Mono';letter-spacing:1px}footer button{background:none;border:0;color:var(--aqua);font:9px 'DM Mono';cursor:pointer}.modalback{position:fixed;inset:0;z-index:300;background:#020709e8;backdrop-filter:blur(14px);display:grid;place-items:center;padding:20px}.modal{position:relative;width:min(560px,100%);padding:45px;background:#0b2026;border:1px solid var(--aqua);box-shadow:0 0 80px #5effef20}.modal>small{font:9px 'DM Mono';letter-spacing:2px;color:var(--aqua)}.modal h2{font:700 40px 'Barlow Condensed';margin:40px 0 10px}.modal p{color:#9ab3b3;font-size:13px}.x{position:absolute;right:16px;top:10px;background:none;border:0;color:var(--aqua);font-size:30px;cursor:pointer}.modtags{display:flex;gap:9px;margin-top:25px;flex-wrap:wrap}.modtags span{border:1px solid #31565c;padding:9px;color:var(--aqua);font:9px 'DM Mono'}.modnote{border-top:1px solid #315158;padding-top:20px;margin-top:35px!important;font:9px 'DM Mono';letter-spacing:1px}@keyframes beamMove{to{transform:rotate(23deg) translateX(35%);opacity:.4}}@keyframes float{50%{transform:translateY(-10px)}}@keyframes portraitFloat{50%{transform:rotateY(8deg) translateY(-8px)}}@keyframes orbit{to{transform:rotate(385deg) scaleX(.72)}}@keyframes pulse{50%{opacity:.25;transform:scale(.8)}}@keyframes stagePulse{to{opacity:.35;transform:scaleX(.7) rotate(calc((var(--n) - 2)*8deg))}}@media(max-width:850px){.hero{min-height:930px;padding:7vh 7vw}.hero-inner{grid-template-columns:1fr}.hero-art{position:absolute;right:5vw;bottom:6%;width:43vw;height:47vh;min-height:320px;opacity:.68}.hero-copy{z-index:3}.hero h1{font-size:clamp(5rem,13vw,8rem)}.section{padding:95px 7vw}.event{grid-template-columns:30px 80px 1fr 22px}.eventcat{display:none}.console{grid-template-columns:1fr}.stageview{min-height:340px}.controls{display:grid;grid-template-columns:1fr 1fr}.controltitle,.toggle,.presets{grid-column:1/-1}}@media(max-width:580px){.top{height:65px;padding:0 6vw}.top nav{display:none;position:absolute;top:64px;left:0;right:0;background:#07151a;padding:22px 7vw;border-bottom:1px solid #29464c;flex-direction:column;gap:22px}.top nav.navopen{display:flex}.top .contactbtn{display:none}.menubtn{display:block}.hero{min-height:850px;padding:7vh 6vw}.hero h1{font-size:clamp(4.7rem,17vw,6.5rem)}.micro{margin-top:45px}.intro{max-width:300px;font-size:12px}.stats{gap:22px;margin-top:40px}.stats b{font-size:27px}.stats small{font-size:7px}.hero-art{width:50vw;height:37vh;min-height:260px;right:1vw;bottom:7%;opacity:.48}.hero-bottom{left:6vw;right:6vw;font-size:6px}.section{padding:78px 6vw}.storygrid{grid-template-columns:1fr;gap:5px}.splithead{display:block}.splithead p{margin-top:-20px}.milestone{grid-template-columns:18px 65px 1fr 20px;gap:10px;padding:23px 0}.milestone h3{font-size:15px}.milestone p{font-size:10px}.mileyear{font-size:20px}.skillbox{grid-template-columns:1fr}.skillnav{border-right:0;border-bottom:1px solid #2a4b52}.skillnav button{padding:16px}.skilldetail{min-height:300px;padding:28px 22px}.skilldetail ul{grid-template-columns:1fr}.archivehead{align-items:center}.total b{font-size:42px}.filters{align-items:stretch}.search{width:100%}.years{flex-wrap:wrap}.years span{width:100%}.event{grid-template-columns:25px 58px 1fr 17px;gap:8px;padding:16px 0}.eventname{font-size:11px}.eventname small{font-size:8px}.eventnum,.eventdate{font-size:7px}.console{display:block}.stageview{min-height:300px}.controls{display:flex;padding:22px}.contact{min-height:480px}footer{flex-direction:column;align-items:flex-start;padding:25px 6vw}.pointerlight{display:none}.modal{padding:32px 24px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+ `}</style></main>
 }
