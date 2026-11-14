@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 
-const GOLD = "#E8A030";
-const BG = "#0C0C0C";
-const BG2 = "#111111";
-const TEXT = "#F0EDE8";
-const MUTED = "#666";
-const DIMMED = "#2A2A2A";
+const GOLD = "#78E6DF";
+const BG = "#071114";
+const BG2 = "#0B191D";
+const TEXT = "#E7F4F3";
+const MUTED = "#779397";
+const DIMMED = "#1B3439";
 
 const bio = `Supporting live productions through precision, teamwork, and technical excellence.
 I'm Anugrah Arif Eka Saputra (Xsa), a Lighting Crew based in Indonesia with hands-on experience supporting concerts, festivals, corporate events, exhibitions, and large-scale live productions.
@@ -74,10 +74,10 @@ const events = [
 const CATS = ["All", "Concert", "Festival", "Corporate", "Production", "Exhibition"];
 const CAT_COLOR = {
   Concert:    "#E8A030",
-  Festival:   "#60A5FA",
-  Corporate:  "#A78BFA",
-  Production: "#34D399",
-  Exhibition: "#F472B6",
+  Festival:   "#75BFC9",
+  Corporate:  "#A3C9D0",
+  Production: "#63C9B7",
+  Exhibition: "#8ABEC4",
 };
 
 const TOTAL_EVENTS = events.length;
@@ -175,12 +175,12 @@ export default function Portfolio() {
       )}
 
       {/* ── HERO ── */}
-      <section ref={setRef(0)} style={{
+      <section ref={setRef(0)} className="aqua-hero" onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${((e.clientX-r.left)/r.width)*100}%`); e.currentTarget.style.setProperty("--my", `${((e.clientY-r.top)/r.height)*100}%`); }} style={{
         minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center",
         padding: isMobile ? "0 6vw" : "0 8vw",
         position: "relative", overflow: "hidden"
       }}>
-        <div style={{ position: "absolute", top: "20%", left: "35%", width: 500, height: 500, background: `radial-gradient(circle, ${GOLD}15 0%, transparent 65%)`, pointerEvents: "none" }} />
+        <div className="aqua-spotlight" /><div className="aqua-beam aqua-beam-one" /><div className="aqua-beam aqua-beam-two" /><div className="portrait-frame"><img src="/xsa-portrait.svg" alt="Xsa portrait" /><span className="portrait-label">XSA / LIGHTING CREW</span></div><div style={{ position: "absolute", top: "20%", left: "35%", width: 500, height: 500, background: `radial-gradient(circle, ${GOLD}22 0%, transparent 65%)`, pointerEvents: "none" }} />
         <div style={{ position: "relative" }}>
           <div style={{ fontSize: 10, letterSpacing: 5, color: GOLD, textTransform: "uppercase", marginBottom: 28, animation: "fu 0.8s ease both" }}>
             Lighting Crew · Since Oct 2024
@@ -342,6 +342,22 @@ export default function Portfolio() {
       <style>{`
         @keyframes fu { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
         @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
+        @keyframes aquaFloat { 0%,100% { transform:translate3d(0,0,0) rotate(-2deg); } 50% { transform:translate3d(0,-14px,0) rotate(1deg); } }
+        @keyframes beamSweep { 0% { opacity:.12; transform:rotate(-18deg) translateX(-12%); } 50% { opacity:.42; } 100% { opacity:.12; transform:rotate(-18deg) translateX(12%); } }
+        .aqua-hero { isolation:isolate; background:radial-gradient(ellipse at 70% 45%, #12343a 0%, #071114 48%, #05090b 100%); }
+        .aqua-spotlight { position:absolute; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(480px circle at var(--mx,72%) var(--my,38%), rgba(120,230,223,.19), transparent 72%); transition:background .12s ease; }
+        .aqua-beam { position:absolute; z-index:-1; pointer-events:none; width:42vw; height:130vh; top:-18vh; background:linear-gradient(90deg, transparent, rgba(120,230,223,.09), transparent); filter:blur(22px); transform-origin:top center; animation:beamSweep 9s ease-in-out infinite alternate; }
+        .aqua-beam-one { left:54%; transform:rotate(18deg); }
+        .aqua-beam-two { left:78%; opacity:.5; animation-delay:-4s; transform:rotate(-16deg); }
+        .portrait-frame { position:absolute; right:8vw; top:50%; width:clamp(230px,29vw,390px); aspect-ratio:9/16; transform:translateY(-48%); overflow:hidden; border:1px solid rgba(120,230,223,.42); border-radius:180px 180px 22px 22px; box-shadow:0 28px 90px rgba(0,0,0,.55), 0 0 55px rgba(120,230,223,.12); animation:aquaFloat 7s ease-in-out infinite; background:#0b191d; }
+        .portrait-frame:after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,18,21,.02) 48%, rgba(4,13,16,.76) 100%), linear-gradient(120deg, rgba(120,230,223,.12), transparent 42%); pointer-events:none; }
+        .portrait-frame img { width:100%; height:100%; object-fit:cover; object-position:center; filter:saturate(.76) contrast(1.04) hue-rotate(8deg); }
+        .portrait-label { position:absolute; z-index:1; bottom:18px; left:20px; color:#c7f7f1; font-size:9px; letter-spacing:3px; }
+        button, .aqua-hero h1, .aqua-hero > div { transition-timing-function:cubic-bezier(.2,.8,.2,1); }
+        button { box-shadow:0 0 0 rgba(120,230,223,0); }
+        button:hover { box-shadow:0 8px 30px rgba(120,230,223,.13); transform:translateY(-2px); }
+        @media (max-width:640px) { .portrait-frame { right:3vw; top:auto; bottom:7%; width:43vw; max-height:54vh; transform:none; opacity:.76; border-radius:140px 140px 18px 18px; } .portrait-frame img { object-position:center; } .aqua-beam { width:65vw; } .aqua-hero > div:nth-of-type(2) { max-width:75%; } }
+        @media (prefers-reduced-motion: reduce) { *, *:before, *:after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; } }
         * { box-sizing:border-box; }
         body { margin:0; overflow-x:hidden; }
         ::-webkit-scrollbar { width:3px; }
