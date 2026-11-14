@@ -64,7 +64,7 @@ const events = [
   
 ];
 const categories=["All",...new Set(events.map(e=>e.cat))];
-const years=[...new Set(events.map(e=>e.date.slice(0,4)))].sort();
+const years=[...new Set(events.map(e=>e.date.slice(0,4)))].sort((a,b)=>b.localeCompare(a));
 
 function useReveal(){
  const ref=useRef(null); const [shown,setShown]=useState(false);
@@ -79,7 +79,7 @@ export default function Portfolio(){
  const hero=useRef(null),[tilt,setTilt]=useState({x:0,y:0});
  const color=ACCENTS[accent];
  useEffect(()=>{const onScroll=()=>{const max=document.documentElement.scrollHeight-innerHeight;setScroll(max>0?scrollY/max*100:0)};const onMove=e=>setPointer({x:e.clientX,y:e.clientY});window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("mousemove",onMove);return()=>{window.removeEventListener("scroll",onScroll);window.removeEventListener("mousemove",onMove)}},[]);
- const shown=useMemo(()=>events.filter(e=>(filter==="All"||e.cat===filter)&&(year==="All"||e.date.slice(0,4)===year)&&(`${e.title} ${e.venue} ${e.cat}`.toLowerCase().includes(search.toLowerCase()))),[filter,year,search]);
+ const shown=useMemo(()=>events.filter(e=>(filter==="All"||e.cat===filter)&&(year==="All"||e.date.slice(0,4)===year)&&(`${e.title} ${e.venue} ${e.cat}`.toLowerCase().includes(search.toLowerCase()))).sort((a,b)=>{const key=s=>Number(s.date.split("-")[0])*10000+Number(s.date.split("-")[1])*100+Number(s.date.split("-")[2]);return key(b)-key(a)}),[filter,year,search]);
  const nav=[["About","about"],["Capabilities","skills"],["Experience","events"]];
  const jump=id=>{document.getElementById(id)?.scrollIntoView({behavior:"smooth"});setMenu(false)};
  const moveHero=e=>{const r=hero.current?.getBoundingClientRect();if(r)setTilt({x:((e.clientX-r.left)/r.width-.5)*9,y:((e.clientY-r.top)/r.height-.5)*-9})};
