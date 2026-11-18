@@ -58,6 +58,8 @@ const events = [
   { n: 47, title: "Andrea Bocelli – Live at Borobudur", venue: "Borobudur Temple", date: "2026-10-31", cat: "Concert"},
   { n: 48, title: "King Nassar – Lost in the Jungle", venue: "Istora", date: "2026-11-07", cat: "Concert"},
   { n: 49, title: "2026-2027 DOH KYUNG SOO CONCERT TOUR [DAY OFF] IN JAKARTA", venue: "Istora GBK Senayan", date: "2026-11-21", endDate: "2026-11-22", cat: "Concert"},
+  { n: 50, title: "Djakarta Warehouse Project 2026 (DWP26)", venue: "JIExpo Kemayoran", date: "2026-12-11", endDate: "2026-12-13", cat: "Festival"},
+  { n: 51, title: "BTS WORLD TOUR ‘ARIRANG’ IN JAKARTA (26, 27 & 29 DECEMBER)", venue: "Gelora Bung Karno Main Stadium", date: "2026-12-26", endDate: "2026-12-29", cat: "Concert"},
   
   
 ];
