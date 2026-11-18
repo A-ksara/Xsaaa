@@ -57,6 +57,7 @@ const events = [
   { n: 46, title: "Kanye West", venue: "Gelora Bung Karno Main Stadion", date: "2026-10-24", cat: "Concert"},
   { n: 47, title: "Andrea Bocceli", venue: "BOROBUDUR Temple", date: "2026-10-31", cat: "Concert"},
   { n: 48, title: "King Nassar - Lost In The Jungle", venue: "Istora", date: "2026-11-7", cat: "Concert"},
+  { n: 49, title: "2026-2027 DOH KYUNG SOO CONCERT TOUR [DAY OFF] IN JAKARTA", venue: "Istora GBK Senayan", date: "2026-11-21", endDate: "2026-11-22", cat: "Concert"},
   
   
 ];
@@ -77,7 +78,7 @@ export default function App(){
  <header className="top"><a className="brand" href="#top" onClick={e=>{e.preventDefault();jump("top")}}>XSA<span>✳</span></a><nav className={menu?"navopen":""}><button onClick={()=>jump("story")}>STORY</button><button onClick={()=>jump("journey")}>JOURNEY</button><button onClick={()=>jump("archive")}>ARCHIVE</button><button onClick={()=>jump("lab")}>LIGHTING LAB</button></nav><button className="contactbtn" onClick={()=>jump("contact")}>LET'S CONNECT ↗</button><button className="menubtn" onClick={()=>setMenu(!menu)}>{menu?"×":"☰"}</button></header>
  <section className="hero" id="top" ref={hero}>
   <div className="stagegrid"/><div className="scanline"/><div className="beams">{Array.from({length:7},(_,i)=><i key={i} style={{"--i":i}}/>)}</div>
-  <div className="hero-inner"><div className="hero-copy"><div className="eyebrow"><i/> LIVE PRODUCTION · INDONESIA · EST. 2024</div><div className="micro">THE PEOPLE BEHIND THE MOMENT</div><h1>WE MAKE<br/>THE NIGHT<br/><em>LIGHT UP.</em></h1><p className="intro">I'm Xsa — a Lighting Crew member working behind the scenes to bring live experiences to life.</p><div className="actions"><button className="primary" onClick={()=>jump("archive")}>EXPLORE THE ARCHIVE <b>↗</b></button><button className="textbtn" onClick={()=>jump("story")}>DISCOVER MY STORY ↓</button></div><div className="stats"><div><b>48</b><small>SHOWS LOGGED</small></div><div><b>03</b><small>YEARS IN THE FIELD</small></div><div><b>∞</b><small>WAYS TO CREATE</small></div></div></div>
+  <div className="hero-inner"><div className="hero-copy"><div className="eyebrow"><i/> LIVE PRODUCTION · INDONESIA · EST. 2024</div><div className="micro">THE PEOPLE BEHIND THE MOMENT</div><h1>WE MAKE<br/>THE NIGHT<br/><em>LIGHT UP.</em></h1><p className="intro">I'm Xsa — a Lighting Crew member working behind the scenes to bring live experiences to life.</p><div className="actions"><button className="primary" onClick={()=>jump("archive")}>EXPLORE THE ARCHIVE <b>↗</b></button><button className="textbtn" onClick={()=>jump("story")}>DISCOVER MY STORY ↓</button></div><div className="stats"><div><b>49</b><small>SHOWS LOGGED</small></div><div><b>03</b><small>YEARS IN THE FIELD</small></div><div><b>∞</b><small>WAYS TO CREATE</small></div></div></div>
   <div className="hero-art"><div className="orbit o1"/><div className="orbit o2"/><div className="portrait"><img src={portrait} alt="Xsa portrait"/><div className="portraittag"><small>LIGHTING CREW / 001</small><b>XSAAA</b></div></div><div className="sidecode">LX · DMX · LIVE SHOWS</div><div className="crosshair">＋</div></div></div>
   <div className="hero-bottom"><span>01 / INTRODUCTION</span><span>SCROLL TO ENTER THE EXPERIENCE ↓</span><span>JAKARTA · ID</span></div>
  </section>
