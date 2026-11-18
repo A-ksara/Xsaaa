@@ -42,7 +42,7 @@ const events = [
   { n: 31, title: "2025-26 aespa LIVE TOUR – SYNK: aeXIS LINE – in JAKARTA",                    venue: "ICE BSD City, Hall 5–6",          date: "2026-04-04",                           cat: "Concert"     },
   { n: 32, title: "NCT WISH 1st CONCERT TOUR ‘INTO THE WISH : Our WISH’ IN JAKARTA",                         venue: "ICE BSD City, Hall 5",          date: "2026-04-11",                           cat: "Concert"     },
   { n: 33, title: "2026 CNBLUE LIVE WORLD TOUR [3LOGY] IN JAKARTA",                  venue: "ICE BSD City, Hall 1",          date: "2026-04-18",                           cat: "Concert"     },
-  { n: 34, title: "ONE OK ROCK DETOX Asia Tour 2026 – Jakarta",                      venue: "Beach City International Stadium, Ancol",         date: "2026-05-16",                           cat: "Concert"     },
+  { n: 34, title: "ONE OK ROCK DETOX Asia Tour 2026 – Jakarta",                      venue: "Indonesia Arena, Gelora Bung Karno (GBK)",         date: "2026-05-16",                           cat: "Concert"     },
   { n: 35, title: "Laufey – A Matter of Time Tour in Jakarta",  venue: "Nusantara International Convention Exhibition (NICE), PIK 2",              date: "2026-05-23",                           cat: "Concert"     },
   { n: 36, title: "BRI Jakarta International Java Jazz Festival 2026",         venue: "Nusantara International Convention Exhibition (NICE), PIK 2",              date: "2026-05-29", endDate: "2026-05-31",    cat: "Festival"    },
   { n: 37, title: "EXO PLANET #6 – EXhOrizon in JAKARTA", venue: "Indonesia Arena, Gelora Bung Karno (GBK)", date: "2026-06-06", endDate: "2026-06-07", cat: "Concert"},
